@@ -1,0 +1,111 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.MY_PREFERENCES }}{% endblock %}
+{% block content %}
+<div id="home_title">{{ LANG.MY_PREFERENCES }}</div>
+<div id="home_content">
+{% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
+{% if params.0 == 'password_updated' %}{{ success_message(LANG.PASSWORD_UPDATED) }}{% endif %}
+{% if params.0 == 'profile_updated' %}{{ success_message(LANG.PROFILE_UPDATED) }}{% endif %}
+<script>
+	var csrfhash = '{{ getToken('preferences') }}'; 
+	$(function(){
+		$(".csrfhash").val(csrfhash);
+	});
+</script>
+<div id="tabs">
+	<ul>
+    	<li id="tab1">{{ LANG.PROFILE }}</li>
+        <li id="tab2">{{ LANG.CHANGE_PASSWORD }}</li>
+    </ul>
+	<div id="ctab1">
+    	<form method="post" action="{{ getUrl(controller,action,'update_profile') }}">
+        <input type="hidden" name="csrfhash" class="csrfhash" />
+    	<table class="widget-table-form">
+        	<tr>
+            	<td width="40%">{{ LANG.FULL_NAME }}<br />
+                <span class="description">{{ LANG.FULL_NAME_TXT }}</span>
+                </td>
+                <td valign="top" align="left">
+                	<input type="text" name="fullname" value="{{ staff.fullname }}" size="30" />
+                </td>
+            </tr>
+        	<tr>
+            	<td>{{ LANG.EMAIL_ADDRESS }}<br />
+                <span class="description">{{ LANG.EMAIL_TXT }}</span>
+                </td>
+                <td valign="top" align="left">
+                	<input type="text" name="email" value="{{ staff.email }}" size="30" />
+                </td>
+            </tr>
+        	<tr>
+            	<td valign="top">{{ LANG.SIGNATURE }}<br />
+                <span class="description">{{ LANG.SIGNATURE_TXT }}</span>
+                </td>
+                <td valign="top" align="left"><textarea name="signature" style="width:100%; height:78px">{{ staff.signature }}</textarea>
+                </td>
+            </tr>
+        	<tr>
+            	<td>{{ LANG.TIMEZONE }}<br />
+                <span class="description">{{ LANG.TIMEZONE_TXT }}</span>
+                </td>
+                <td valign="top" align="left">
+                <select name="timezone">
+                    <option value="">-- {{ LANG.DEFAULT_TIMEZONE }} --</option>
+                    {% for timezone in timezone %}
+                    	{% if timezone == staff.timezone %}
+                        <option value="{{ timezone }}" selected>{{ timezone }}</option>
+                        {% else %}
+                        <option value="{{ timezone }}">{{ timezone }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                </td>
+            </tr>
+            <tr>
+            	<td colspan="2">
+                	<input type="submit" name="btn" value="{{ LANG.UPDATE }}" />
+                </td>
+            </tr>
+        </table>
+        </form>
+    </div>
+    <div id="ctab2">
+    	<form method="post" action="{{ getUrl(controller,action,'update_password#ctab2') }}">
+        <input type="hidden" name="csrfhash" class="csrfhash" />
+    	<table class="widget-table-form">
+        	<tr>
+            	<td width="40%">{{ LANG.EXISTING_PASSWORD }}<br />
+                <span class="description">{{ LANG.EXISTING_PASSWORD_TXT }}</span>
+                </td>
+                <td valign="top" align="left">
+                	<input type="password" name="current_password" size="30" />
+                </td>
+            </tr>
+        	<tr>
+            	<td>{{ LANG.NEW_PASSWORD }}<br />
+                <span class="description">{{ LANG.NEW_PASSWORD_TXT }}</span>
+                </td>
+                <td valign="top" align="left">
+                	<input type="password" name="new_password" size="30" />
+                </td>
+            </tr>
+        	<tr>
+            	<td>{{ LANG.CONFIRM_NEW_PASSWORD }}<br />
+                <span class="description">{{ LANG.CONFIRM_NEW_PASSWORD_TXT }}</span>
+                </td>
+                <td valign="top" align="left">
+                	<input type="password" name="new_password2" size="30" />
+                </td>
+            </tr>
+            <tr>
+            	<td colspan="2">
+                	<input type="submit" name="btn" value="{{ LANG.UPDATE }}" />
+                </td>
+            </tr>
+        </table>
+        </form>
+    </div>
+</div>
+
+</div>
+{% endblock %}

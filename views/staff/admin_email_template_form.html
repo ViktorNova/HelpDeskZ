@@ -1,0 +1,29 @@
+<form method="post" action="{{ form_action }}">
+<input type="hidden" name="csrfhash" value="{{ getToken('emails') }}" />
+<input type="hidden" name="template_id" value="{{ email.id }}" />
+<table class="widget-table-form">
+	<tr>
+    	<td width="100">{{ LANG.SUBJECT }}</td>
+		<td><input type="text" style="width:100%" name="subject" value="{{ email.subject }}" /></td>
+	</tr>
+    <tr>
+    	<td colspan="2">
+        <textarea style="height:300px; width:100%" name="message">{{ email.message }}</textarea>
+        </td>
+    </tr>
+	<tr>
+    	<td colspan="2">
+                    <div class="description">{{ LANG.SPECIAL_TAGS }}:
+                    	<ul>
+                        	<li>%company_name% : <i>{{ LANG.COMPANY_NAME }}</i></li>
+                            <li>%helpdesk_url% : <i>{{ LANG.HELPDESK_URL }}</i></li>
+                        </ul>
+                    </div>
+        </td>
+    </tr>
+    <tr>
+    	<td></td>
+        <td><input type="submit" name="btn" value="{{ LANG.SUBMIT }}" /></td>
+    </tr>
+</table>
+</form>

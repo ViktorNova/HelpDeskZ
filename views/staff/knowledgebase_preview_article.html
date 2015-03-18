@@ -1,0 +1,29 @@
+{% extends 'site.html' %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+{% include 'knowledgebase_leftbar.html' %}
+<div style="margin-left:260px;">
+
+	<div id="tabs">
+    	<ul>
+        	<li>{{ LANG.VIEW_KNOWLEDGEBASE }}</li>
+        </ul>
+        <div>
+<input type="button" onclick="location.href='{{ getUrl(controller,action,['manage','edit',article.id]) }}';" value="{{ LANG.EDIT_ARTICLE }}" /><br />
+<br />
+
+        	<div class="knowledgebasearticletitle">{{ article.title }}</div>
+            <div class="knowledgebasearticletitledescr">{{ LANG.POSTED_BY_ON|replace({'%author%':article.author, '%date%':displayDate(article.date)}) }}</div>
+            <div>{{ article.content|raw }}</div>
+            {% if attachments|is_array %}
+            <div class="knowledgebasearticleattachment">{{ LANG.ATTACHMENTS }}</div>
+            {% for file in attachments %}
+            <div><span class="knowledgebaseattachmenticon"></span> <a href="{{ attachment_url }}{{ file.id}}" target="_blank">{{ file.name }} ({{ file.filesize }})</a></div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+<div class="clear"></div>
+{% endblock %}

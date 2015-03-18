@@ -1,0 +1,36 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.PREFERENCES }}{% endblock %}
+{% block content %}
+<div class="title">{{ LANG.PREFERENCES }}</div>
+{% set foo = {'0': 'save'} %}
+<form method="post" action="{{ getUrl('user_account','preferences',foo) }}">
+{% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
+{% if params.0 == 'saved' %}{{ success_message(LANG.YOUR_PREFERENCES_SAVED) }}{% endif %}
+
+<table width="100%" cellspacing="1" cellpadding="4" border="0">
+	<tr>
+    	<td colspan="2"><strong>{{ LANG.GENERAL_OPTIONS }}</strong></td>
+    </tr>
+    <tr>
+    	<td class="zebraodd" width="200">{{ LANG.TIMEZONE }}:</td>
+        <td>
+        <select name="timezone">
+        	<option value="">-- {{ LANG.DEFAULT_TIMEZONE }} --</option>
+        	{% for timezone in timezone %}
+				{% if timezone == user.timezone %}
+					<option value="{{ timezone }}" selected="selected">{{ timezone }}</option>
+				{% else %}
+					<option value="{{ timezone }}">{{ timezone }}</option>
+				{% endif %}
+            {% endfor %}
+        </select>
+        </td>
+    </tr>
+
+    <tr>
+    	<td colspan="2"><input type="submit" value="{{ LANG.UPDATE }}" /></td>
+    </tr>
+</table>
+<input type="hidden" name="csrfhash" value="{{ getToken('preferences') }}" />
+</form>
+{% endblock %}

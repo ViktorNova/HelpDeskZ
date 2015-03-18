@@ -1,0 +1,74 @@
+<form method="post" action="{{ form_action }}">
+<input type="hidden" name="csrfhash" value="{{ getToken('staff_account') }}" />
+{% if agent|is_array %}
+<input type="hidden" name="staff_id" value="{{ agent.id }}" />
+{% endif %}
+<table class="widget-table-form">
+	<tr>
+    	<td width="250">{{ LANG.USERNAME }}*</td>
+		<td><input type="text" style="width:100%" name="username" value="{{ agent.username }}" /></td>
+	</tr>
+	<tr>
+    	<td>{{ LANG.FULL_NAME }}*</td>
+		<td><input type="text" style="width:100%" name="fullname" value="{{ agent.fullname }}" /></td>
+	</tr>
+	<tr>
+    	<td>{{ LANG.EMAIL_ADDRESS }}*</td>
+		<td><input type="text" style="width:100%" name="email" value="{{ agent.email }}" /></td>
+	</tr>
+    <tr>
+    	<td>{{ LANG.ADMINISTRATOR }}</td>
+		<td><select name="admin">
+        <option value="0" {% if agent.admin == 0 %}selected{% endif %}>{{ LANG.NO }}</option>
+        <option value="1" {% if agent.admin == 1 %}selected{% endif %}>{{ LANG.YES }}</option>
+        </select>
+        </td>
+	</tr>
+    <tr>
+    	<td>{{ LANG.PASSWORD }} {% if agent|is_array %}{% else %}*{% endif %}</td>
+		<td><input type="password" style="width:100%" name="password" /></td>
+	</tr>
+    <tr>
+    	<td>{{ LANG.CONFIRM_PASSWORD }} {% if agent|is_array %}{% else %}*{% endif %}</td>
+		<td><input type="password" style="width:100%" name="password2" /></td>
+	</tr>
+    <tr>
+    	<td>{{ LANG.ACCOUNT_STATUS }}</td>
+		<td><select name="status">
+        <option value="Enable" {% if agent.status == 'Enable' %}selected{% endif %}>{{ LANG.ACTIVE }}</option>
+        <option value="Disable" {% if agent.status != 'Enable' %}selected{% endif %}>{{ LANG.LOCKED }}</option>
+        </select>
+        </td>
+	</tr>
+    <tr>
+    	<td>{{ LANG.SIGNATURE }}</td>
+        <td><textarea style="width:100%; height:70px" name="signature">{{ agent.signature }}</textarea></td>
+    </tr>
+    <tr>
+    	<td>{{ LANG.TIMEZONE }}</td>
+		<td><select name="timezone">
+            <option value="">-- {{ LANG.DEFAULT_TIMEZONE }} --</option>
+            {% for v in timezone %}
+            	{% if v == agent.timezone %}
+                <option value="{{ v }}" selected>{{ v }}</option>
+                {% else %}
+                <option value="{{ v }}">{{ v }}</option>';
+                {% endif %}
+            {% endfor %}
+        </select>
+        </td>
+	</tr>
+    <tr>
+    	<td>{{ LANG.ASSIGNED_DEPARTMENTS }}</td>
+		<td>
+        {% for r in departments %}
+		<label><input type="checkbox" name="department[]" value="{{ r.id }}" style="vertical-align: baseline;" {% if r.id in agent_department %}checked{% endif %}>{{ r.name }}</label><br>
+        {% endfor %}
+        </td>
+	</tr>
+    <tr>
+    	<td></td>
+        <td><input type="submit" name="btn" value="{{ LANG.SUBMIT }}" /></td>
+    </tr>
+</table>
+</form>

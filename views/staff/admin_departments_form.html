@@ -1,0 +1,36 @@
+<form method="post" action="{{ form_action }}">
+<input type="hidden" name="csrfhash" value="{{ getToken('departments') }}" />
+{% if department|is_array %}
+<input type="hidden" name="department_id" value="{{ department.id }}" />
+{% endif %}
+<table class="widget-table-form">
+	<tr>
+    	<td width="250">{{ LANG.DEPARTMENT_NAME }}</td>
+		<td><input type="text" style="width:100%" name="name" value="{{ department.name }}" /></td>
+	</tr>
+    <tr>
+    	<td>{{ LANG.TYPE }}</td>
+		<td><select name="type">
+        <option value="0" {% if department.type == 0 %}selected{% endif %}>{{ LANG.PUBLIC }}</option>
+        <option value="1" {% if department.type == 1 %}selected{% endif %}>{{ LANG.PRIVATE }}</option>
+        </select>
+        </td>
+	</tr>
+    <tr>
+    	<td>{{ LANG.DISPLAY_ORDER }}</td>
+		<td><input type="text" style="width:100%" name="dep_order" value="{{ dep_order }}" /></td>
+	</tr>
+    <tr>
+    	<td>{{ LANG.AUTOASSING_TICKETS_PIPE }}<br /><span class="description">{{ LANG.AUTOASSING_TICKETS_PIPE_INFO }}</span></td>
+		<td><select name="autoassign">
+        <option value="0" {% if department.autoassign == 0 %}selected{% endif %}>{{ LANG.NO }}</option>
+        <option value="1" {% if department.autoassign == 1 %}selected{% endif %}>{{ LANG.YES }}</option>
+        </select>
+        </td>
+	</tr>
+    <tr>
+    	<td></td>
+        <td><input type="submit" name="btn" value="{{ LANG.SUBMIT }}" /></td>
+    </tr>
+</table>
+</form>

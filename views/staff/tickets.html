@@ -1,0 +1,111 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.MANAGE_TICKETS }}{% endblock %}
+{% block content %}
+{% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
+<script>
+	var csrfhash = '{{ getToken('tickets') }}'; 
+	$(document).ready(function(){
+		$(".csrfhash").val(csrfhash);
+	});
+</script>
+
+{% include 'filter_bar.html' %}
+<div style="margin-left:260px;">
+
+<form method="post" action="{{ getUrl(controller,action,['page',page,orderby,sortby],getvar) }}">
+<input type="hidden" name="do" value="update" />
+<input type="hidden" name="csrfhash" class="csrfhash" />
+{{ ticketpaginator(total_pages,page,getUrl(controller,action,['page','#page#',orderby,sortby], getvar)) }}
+
+<table  class="widget-table">
+    <thead class="titles">
+        <tr>
+        	<th><input type="checkbox" id="selectall" /></th>
+            <th {% if params.2 == 'code' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'code',(params.3 =='desc'?'asc':'desc')],getvar) }}">{{ LANG.TICKET_ID }}</a></th>
+            <th {% if params.2 == 'subject' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'subject',(params.3=='desc'?'asc':'desc')],getvar) }}">{{ LANG.SUBJECT }}</a></th>
+            <th {% if params.2 == 'last_replier' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'last_replier',(params.3=='desc'?'asc':'desc')],getvar) }}">{{ LANG.LAST_REPLIER }}</a></th>
+            <th {% if params.2 == 'replies' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'replies',(params.3=='desc'?'asc':'desc')],getvar) }}">{{ LANG.REPLIES }}</a></th>
+            <th {% if params.2 == 'priority_id' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'priority_id',(params.3=='desc'?'asc':'desc')],getvar) }}">{{ LANG.PRIORITY }}</a></th>
+            <th {% if params.2 == 'last_update' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'last_update',(params.3=='desc'?'asc':'desc')],getvar) }}">{{ LANG.LAST_ACTIVITY }}</a></th>
+            <th {% if params.2 == 'department_id' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'department_id',(params.3=='desc'?'asc':'desc')],getvar) }}">{{ LANG.DEPARTMENT }}</a></th>
+            <th {% if params.2 == 'status' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'status',(params.3=='desc'?'asc':'desc')],getvar) }}">{{ LANG.STATUS }}</a></th>
+        </tr>
+    </thead>
+    {% for ticket in tickets %}
+        <tr class="{{ ticket.td_class }}">
+            <td width="15"><input type="checkbox" name="ticket_id[]" value="{{ ticket.id }}" class="checkall"></td>
+            <td><a href="{{ getUrl(controller,action,['view',ticket.id]) }}">{{ ticket.code }}</a></td>
+            <td><a href="{{ getUrl(controller,action,['view',ticket.id]) }}">{{ ticket.subject }}</a></td>
+            <td>{{ ticket.last_replier }}</td>
+            <td>{{ ticket.replies }}</td>
+            <td style="color:{{ ticket.priority_color }};">{{ ticket.priority }}</td>
+            <td style="color:{{ ticket.color_time }};">{{ ticket.lastupdate }}</td>
+            <td>{{ departments[ticket.department_id] }}</td>
+            <td style="color:{{ statuscolor[ticket.status] }}">{{ ticket_status[ticket.status] }}</td>
+        </tr>
+	{% endfor %}
+    {% if total_tickets == 0 %}<tr><td colspan="9"><i>{{ LANG.NOTHING_TO_DISPLAY }}</i></td></tr>{% endif %}
+</table>
+<div id="options" style="margin-top:20px; display:none;">
+    <div id="tabs">
+        <ul>
+            <li>{{ LANG.MASS_ACTION }}</li>
+        </ul>
+        <div id="tab1">
+            <div id="ctab1">
+                <table  class="widget-table-form">
+                    <tr>
+                        <td width="200">{{ LANG.MOVE_TO_DEPARTMENT }}:</td>
+                        <td>
+                        <select name="department">
+                            <option value="">-- {{ LANG.NO_CHANGE }} --</option>
+                            {% for id,name in departments %}
+                             <option value="{{ id }}">{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ LANG.CHANGE_STATUS }}:</td>
+                        <td>
+                        <select name="status">
+                            <option value="">-- {{ LANG.NO_CHANGE }} --</option>
+                            {% for id,status in ticket_status %}
+                            <option value="{{ id }}">{{ status }}</option>
+                            {% endfor %}
+                        </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ LANG.CHANGE_PRIORITY }}:</td>
+                        <td>
+                        <select name="priority">
+                            <option value="">-- {{ LANG.NO_CHANGE }} --</option>
+                            {% for priority in priority %}
+                            <option value="{{ priority.id }}">{{ priority.name }}</option>
+                            {% endfor %}
+                        </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ LANG.REMOVE }}:</td>
+                        <td>
+                        <select name="remove">
+                            <option value="">-- {{ LANG.NO }} --</option>
+                            <option value="1">{{ LANG.YES }}</option>
+                        </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" name="btn" value="{{ LANG.UPDATE }}" /></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+	</div>
+</div>
+</form>
+
+</div>
+<div class="clear"></div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.MANAGE_KNOWLEDGEBASE }}{% endblock %}
+{% block content %}
+<script>
+	var csrfhash = '{{ getToken('knowledgebase') }}'; 
+	$(document).ready(function(){
+		$(".csrfhash").val(csrfhash);
+	});
+</script>
+{% include 'knowledgebase_leftbar.html' %}
+<div style="margin-left:260px;">
+{% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
+<form method="post" action="{{ getUrl(controller,action,['manage','page',page,orderby,sortby],getvar) }}">
+<input type="hidden" name="do" value="update" />
+<input type="hidden" name="csrfhash" class="csrfhash" />
+{{ ticketpaginator(total_pages,page,getUrl(controller,action,['manage','page','#page#',orderby,sortby])) }}
+<table  class="widget-table">
+    <thead class="titles">
+        <tr>
+        	<th><input type="checkbox" id="selectall" /></th>
+            <th {% if params.3 == 'title' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['manage','page',page,'title',(params.4=='desc'?'asc':'desc')],getvar) }}">{{ LANG.ARTICLE_TITLE }}</a></th>
+	        <th {% if params.3 == 'category' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['manage','page',page,'category',(params.4=='desc'?'asc':'desc')],getvar) }}">{{ LANG.CATEGORY }}</a></th>
+            <th {% if params.3 == 'author' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['manage','page',page,'author',(params.4=='desc'?'asc':'desc')],getvar) }}">{{ LANG.AUTHOR }}</a></th>
+            <th {% if params.3 == 'date' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['manage','page',page,'date',(params.4=='desc'?'asc':'desc')],getvar) }}">{{ LANG.CREATION_DATE }}</a></th>
+            <th {% if params.3 == 'views' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['manage','page',page,'views',(params.4=='desc'?'asc':'desc')],getvar) }}">{{ LANG.VIEWS }}</a></th>
+            
+        </tr>
+    </thead>
+    {% if kb_article|is_array %}
+    {% for r in kb_article %}
+		{% set tdclass = (tdclass == 'trzebra'?'':'trzebra') %}
+        <tr class="{{ tdclass }}">
+			<td width="15"><input type="checkbox" name="kb_id[]" value="{{ r.id }}" class="checkall"></td>
+            <td><a href="{{ getUrl(controller,action,['manage','edit',r.id]) }}">{{ r.title }}</a></td>
+			<td><a href="{{ getUrl(controller,action,['manage'],'cat='~r.category) }}">{{ r.category_name }}</a></td>
+            <td><a href="{{ getUrl(controller,action,['manage','edit',r.id]) }}">{{ r.author }}</a></td>
+			<td>{{ displayDate(r.date) }}</td>
+			<td>{{ r.views }}</td>
+        </tr>
+    {% endfor %}
+    {% else %}
+		<tr><td colspan="9"><i>{{ LANG.NOTHING_TO_DISPLAY }}</i></td></tr>
+	{% endif %}
+</table>
+<div id="options" style="margin-top:20px; display:none;">
+    <div id="tabs">
+        <ul>
+            <li>{{ LANG.MASS_ACTION }}</li>
+        </ul>
+        <div id="tab1">
+            <div id="ctab1">
+                <table  class="widget-table-form">
+                    <tr>
+                        <td width="200">{{ LANG.MOVE_TO_CATEGORY }}:</td>
+                        <td>
+                        <select name="kb_category">
+                            <option value="">-- {{ LANG.NO_CHANGE }} --</option>
+                            {% for id,name in kb_category %}
+                            <option value="{{ id }}">{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ LANG.REMOVE }}:</td>
+                        <td>
+                        <select name="remove">
+                            <option value="">-- {{ LANG.NO }} --</option>
+                            <option value="1">{{ LANG.YES }}</option>
+                        </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" name="btn" value="{{ LANG.UPDATE }}" /></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+	</div>
+</div>
+</form>
+</div>
+<div class="clear"></div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.CANNED_RESPONSE }}{% endblock %}
+{% block content %}
+<script>
+	var csrfhash = '{{ getToken('canned') }}'; 
+	var _cannedURL = '{{ getUrl(controller, action, ['canned','GetCannedForm','']) }}';
+	$(function(){
+		$(".csrfhash").val(csrfhash);
+	});
+</script>
+{% include 'filter_bar.html' %}
+
+<div style="margin-left:260px;">
+{% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
+{% if params.1 == 'saved' %}{{ success_message(LANG.CANNED_RESPONSE_ADDED) }}
+{% elseif params.1 == 'updated' %}{{ success_message(LANG.CANNED_RESPONSE_UPDATED) }}
+{% endif %}
+    <div id="tabs">
+   		<ul>
+        	<li>{{ LANG.CANNED_RESPONSES }}</li>
+        </ul>
+        <div id="cannedlist">
+
+<input type="button" name="d" value="{{ LANG.ADD_CANNED_RESPONSE }}" onclick="showCannedForm(0);" /><br /><br />
+{{ ticketpaginator(total_pages,page,getUrl(controller,action,['canned','page','#page#'])) }}
+<table  class="widget-table">
+    <thead class="titles">
+        <tr>
+            <th {% if params.2 == 'subject' %}class="active"{% endif %}>{{ LANG.TITLE }}</th>
+            <th {% if params.2 == 'last_replier' %}class="active"{% endif %}>{{ LANG.OPTION }}</th>
+        </tr>
+    </thead>
+    {% if canned_responses|is_array %}
+    {% for canned in canned_responses %}
+    	{% set tdclass = (tdclass == 'trzebra'?'':'trzebra') %}
+		<tr class="{{ tdclass }}">
+            <td><a href="javascript:void(0);" onclick="showCannedForm({{ canned.id }});">{{ canned.title }}</a></td>
+            <td>
+            {% if canned.position != 1 %}<a href="{{ getUrl(controller, action, ['canned','move','up',canned.id]) }}"><img src="{{ getUrl('') }}/images/cp/up.png" /></a>{% endif %}
+            {% if canned.position != last_position %}<a href="{{ getUrl(controller, action, ['canned','move','down',canned.id]) }}"><img src="{{ getUrl('') }}/images/cp/down.png" /></a>{% endif %}
+            <a href="{{ getUrl(controller, action, ['canned','remove',canned.id]) }}" onclick="if(!confirm('{{ LANG.CONFIRM_REMOVE }}')){return false } "><img src="{{ getUrl('') }}/images/cp/crossout.png" /></a>
+            </td>
+		</tr>
+    {% endfor %}
+    {% else %}
+		<tr><td colspan="9"><i>{{ LANG.NOTHING_TO_DISPLAY }}</i></td></tr>
+	{% endif %}
+</table>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+{% endblock %}

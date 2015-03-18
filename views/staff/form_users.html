@@ -1,0 +1,37 @@
+<form  method="post" action="{{ form_action }}">
+{% if users|is_array %}
+<input type="hidden" name="userid" value="{{ users.id }}" />
+{% endif %}
+<input type="hidden" name="csrfhash" value="{{ getToken('users') }}" />
+<table class="widget-table-form">
+	<tr>
+		<td width="200">{{ LANG.FULL_NAME }}</td>
+        <td><input type="text" style="width:100%" name="fullname"  value="{{ users.fullname }}" /></td>
+	</tr>
+    <tr>
+    	<td>{{ LANG.EMAIL_ADDRESS }}</td>
+        <td><input type="text" style="width:100%" name="email"  value="{{ users.email }}" /></td>
+	</tr>
+    <tr>
+    	<td>{{ LANG.TIMEZONE }}</td>
+        <td><select name="timezone">
+            <option value="">-- {{ LANG.DEFAULT_TIMEZONE }} --</option>
+            {% for v in timezone %}
+            	{% if v == users.timezone %}
+                <option value="{{ v }}" selected>{{ v }}</option>
+                {% else %}
+                <option value="{{ v }}">{{ v }}</option>';
+                {% endif %}
+            {% endfor %}
+        </select></td>
+    </tr>
+    <tr>
+    	<td>{{ LANG.PASSWORD }}</td>
+        <td><input type="password" name="password" style="width:100%" /></td>
+    </tr>
+    <tr>
+    	<td></td>
+    	<td><input type="submit" name="btn" value="{{ LANG.SUBMIT }}" /></td>
+    </tr>
+</table>
+</form>

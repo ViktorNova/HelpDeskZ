@@ -1,0 +1,69 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.EDIT_NEWS }}{% endblock %}
+{% block content %}
+{% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
+{% if params.3 == 'updated' %}{{ success_message(LANG.NEWS_UPDATED) }}{% endif %}
+<script type="text/javascript" src="{{ getUrl() }}/js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript">
+tinymce.init({
+    selector: "textarea",
+	theme: "modern",
+    plugins: [
+         "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+         "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+         "save table contextmenu directionality emoticons template paste textcolor"
+   ],
+toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizeselect fontselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+    font_formats: "Andale Mono=andale mono,times;"+
+        "Arial=arial,helvetica,sans-serif;"+
+        "Arial Black=arial black,avant garde;"+
+        "Book Antiqua=book antiqua,palatino;"+
+        "Comic Sans MS=comic sans ms,sans-serif;"+
+        "Courier New=courier new,courier;"+
+        "Georgia=georgia,palatino;"+
+        "Helvetica=helvetica;"+
+        "Impact=impact,chicago;"+
+        "Symbol=symbol;"+
+        "Tahoma=tahoma,arial,helvetica,sans-serif;"+
+        "Terminal=terminal,monaco;"+
+        "Times New Roman=times new roman,times;"+
+        "Trebuchet MS=trebuchet ms,geneva;"+
+        "Verdana=verdana,geneva;"+
+        "Webdings=webdings;"+
+        "Wingdings=wingdings,zapf dingbats",
+ });
+</script>
+	<div id="tabs">
+    	<ul>
+        	<li>{{ LANG.EDIT_NEWS }}</li>
+        </ul>
+        <div>
+        	<form method="post" action="{{ getUrl(controller,action,['manage','edit',news_id,'update']) }}">
+            <input type="hidden" name="csrfhash" value="{{ getToken('news') }}" />
+            <table  class="widget-table-form">
+                <tr>
+                    <td width="250">{{ LANG.TITLE }}</td>
+                    <td><input type="text" name="title" style="width:100%" value="{{ news_title }}" /></td>
+                </tr>
+                <tr>
+                	<td>{{ LANG.TYPE }}</td>
+                    <td><input type="radio" name="public" value="1" checked="checked" {% if news.public == 1 %}checked{% endif %} /> {{ LANG.PUBLIC }}
+                    	<input type="radio" name="public" value="0" {% if news.public == 0 %}checked{% endif %} /> {{ LANG.PRIVATE }}
+                    </td>
+                </tr>
+                <tr>
+                	<td colspan="2">
+                    <textarea style="height:500px;" name="content">{{ news_content }}</textarea>
+                    </td>
+                </tr>
+                 <tr>
+                	<td></td>
+                    <td><input type="submit" name="btn" value="{{ LANG.UPDATE }}" /></td>
+                </tr>
+            </table>
+        	</form>
+        </div>
+    </div>
+
+<div class="clear"></div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "site.html" %}
+{% block title %}{{ news.title }}{% endblock %}
+{% block content %}
+<div class="title">{{ LANG.NEWS }}</div>
+            	<table>
+			<tr>
+				<td rowspan="2">
+					<div class="calendar">
+						<div class="day">{{ news.date|date("d") }}</div>           
+						<div class="month">{{ news.date|date("M") }}</div>
+					</div>
+				</td>
+				<td valign="bottom">
+					<div class="newstitle"><a href="{{ news.url }}">{{ news.title }}</a></div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+<div class="newsdescription">{{ LANG.POSTED_BY_ON|replace({'%author%':news.author, '%date%':displayDate(news.date)}) }}</div>
+				</td>
+			</tr>
+			</table>
+            <div class="newscontent">{{ news.content|raw }}</div>   
+{% endblock %}

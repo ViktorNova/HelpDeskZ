@@ -1,0 +1,30 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.SUBMIT_A_TICKET }}{% endblock %}
+{% block content %}
+    <div class="title">
+        {{ LANG.SUBMIT_A_TICKET }}
+    </div>
+
+        {{ LANG.CANT_FIND_SOLUTION_SUBMIT_TICKET }}
+        {% if display_error == 1 %}
+        {{ error_message(LANG.SELECT_DEPARTMENT_TICKET) }}
+        {% elseif display_error == 2 %}
+        {{ error_message(LANG.CSRF_ERROR) }}
+        {% endif %}
+        <form method="post" action="{{ getUrl('submit_ticket','displayForm') }}">
+
+        <div style="padding:5px 0px"><strong>{{ LANG.DEPARTMENTS }}</strong></div>
+            <table width="100%" cellpadding="4" cellspacing="1" border="0">
+            {% for department in departments %}
+            <tr>
+            	<td class="zebraodd" width="16" valign="middle" align="left">
+                	<input type="radio" name="department" value="{{ department.id }}" id="department_{{ department.id }}">
+                </td>
+                <td><label for="department_{{ department.id }}">{{ department.name }}</label></td>
+			</tr>
+            {% endfor %}
+            </table>
+<br />
+        <input type="submit" name="btn" value="{{ LANG.NEXT }} &raquo;">
+        </form>
+{% endblock %}

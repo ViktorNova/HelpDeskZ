@@ -1,0 +1,63 @@
+{% extends 'site.html' %}
+{% block title %}{% if controller== 'home' %}{{ parent() }}{% else %}{{ LANG.KNOWLEDGEBASE }}{% endif %}{% endblock %}
+{% block content %}
+{% if error_msg != '' %}{{ error_message(error_msg) }}<br />{% endif %}
+{% include 'knowledgebase_searchbox.html' %}
+<div class="title">
+    {{ LANG.KNOWLEDGEBASE }} {% if cat_id != 0 %}: {{ cat_title|raw }}{% endif %}
+</div>
+
+        	<table width="100%" cellpadding="5" cellspacing="5">
+            {% set columnspercent = (100/settings.knowledgebase_columns)|round(2) %}
+            {% set n = 1 %}
+            {% set totalart = 0 %}
+            {% for kb_cat in kb_category %}{% if kb_cat.total_articles != 0 %}
+               {% set totalart = 1 %}
+               {% set result = n%settings.knowledgebase_columns %}
+               {% if result == 1 %}<tr>{% endif %}
+				<td width="{{ columnspercent }}%" valign="top"><div class="knowledgebasecategorytitle"><a href="{{ kb_cat.url }}">{{ kb_cat.name }}</a></div>
+                {% for article in kb_cat.article %}
+                <div class="knowledgebasearticlelist"><a href="{{ article.url }}">{{ article.title }}</a></div>
+                {% endfor %}
+                {% if kb_cat.total_articles > settings.knowledgebase_articlesundercat %}
+                <div><a href="{{ kb_cat.url }}">&raquo; {{ LANG.MORE_TOPICS }}</a></div>
+                {% endif %}
+                </td>
+               {% if result == 0 %}</tr>{% endif %}
+               {% set n = n+1 %}
+            {% endif %}{% endfor %}
+            </table>
+			{% if totalart != 0 %}<div style="margin-bottom:20px"></div>{% endif %}
+            
+            {% for article in articles %}
+				<div class="knowledgebasearticlelisttitle"><a href="{{ article.url }}">{{ article.title }}</a></div>
+				<div style="margin-bottom:20px;">{{ article.content|raw }}</div>
+			{% endfor %}
+            
+            <table width="100%">
+            	<tr>
+                	{% if settings.knowledgebase_mostpopular == 'yes' %}
+                	<td width="50%" valign="top"><div class="knowledgebasepopulartitle">{{ LANG.MOST_POPULAR_ARTICLES }}</div></td>
+					{% endif %}
+					{% if settings.knowledgebase_newest == 'yes' %}
+                	<td width="50%" valign="top"><div class="knowledgebasepopulartitle">{{ LANG.NEWEST_ARTICLES }}</div></td>
+					{% endif %}
+                </tr>
+                <tr>
+                {% if settings.knowledgebase_mostpopular == 'yes' %}
+                	<td valign="top">
+					{% for kb in kb_popular %}
+					<div class="knowledgebasearticlelist"><a href="{{ kb.url }}">{{ kb.title }}</a></div>
+					{% endfor %}
+					</td>
+				{% endif %}
+				{% if settings.knowledgebase_newest == 'yes' %}
+                	<td valign="top">
+					{% for kb in kb_newest %}
+					<div class="knowledgebasearticlelist"><a href="{{ kb.url }}">{{ kb.title }}</a></div>
+					{% endfor %}
+					</td>
+				{% endif %}
+                </tr>
+            </table>
+{% endblock %}

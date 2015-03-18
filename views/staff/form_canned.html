@@ -1,0 +1,27 @@
+<form  method="post" action="{{ form_action }}">
+{% if canned|is_array %}
+<input type="hidden" name="msgid" value="{{ canned.id }}" />
+{% endif %}
+<input type="hidden" name="csrfhash" value="{{ getToken('canned') }}" />
+<table class="widget-table-form">
+	<tr>
+		<td><input type="text" style="width:100%" name="title"  value="{{ canned.title }}" /></td>
+	</tr>
+    <tr>
+		<td><textarea style="width:100%; height:230px;" name="message">{{ canned.message }}</textarea></td>
+	</tr>
+    <tr>
+    	<td>
+                    <div class="description">{{ LANG.SPECIAL_TAGS }}:
+                    	<ul>
+                        	<li>{% raw %}{{HELPDESKZ_NAME}}{% endraw %} : <i>{{ LANG.CUSTOMER_NAME }}</i></li>
+                            <li>{% raw %}{{HELPDESKZ_EMAIL}}{% endraw %} : <i>{{ LANG.CUSTOMER_EMAIL }}</i></li>
+                        </ul>
+                    </div>
+        </td>
+    </tr>
+    <tr>
+    	<td><input type="submit" name="btn" value="{{ LANG.SUBMIT }}" /></td>
+    </tr>
+</table>
+</form>

@@ -1,0 +1,32 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.SUBMIT_A_TICKET }}{% endblock %}
+{% block content %}
+<div class="title">{{ LANG.REQUEST_RECEIVED }}</div>
+<div>{{ LANG.REQUEST_RECEIVED_RESPONSE }}</div>
+<br />
+<table>
+    <tr>
+        <td colspan="2"><strong>{{ LANG.GENERAL_INFORMATION }}</strong></td>
+    </tr>
+    <tr>
+        <td width="140">{{ LANG.TICKET_ID }}: </td>
+        <td>{{ ticket.code }}</td>
+    </tr>
+    <tr>
+        <td>{{ LANG.FULL_NAME }}:</td>
+        <td>{{ ticket.fullname }}</td>
+    </tr>
+    <tr>
+        <td>{{ LANG.EMAIL }}:</td>
+        <td>{{ ticket.email }}</td>
+    </tr>
+    <tr>
+        <td>{{ LANG.PRIORITY }}:</td>
+        <td>{{ priority }}</td>
+    </tr>
+</table>
+
+        
+<p><strong>{{ LANG.SUBJECT }}: {{ ticket.subject }}</strong></p>
+<p>{{ ticket.message }}</p>
+{% endblock %}

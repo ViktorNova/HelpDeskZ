@@ -1,0 +1,59 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.CATEGORIES }}{% endblock %}
+{% block content %}
+<script>
+	var _kbURL = '{{ getUrl(controller, action, ['categories','GetKBCategoryForm','']) }}';
+	$(function(){
+		$("#categoryList").fancytree({
+			minExpandLevel: 2,
+			activate: function(e, data){
+				var node = data.node;
+				if(node.data.href){
+					location.href=node.data.href;
+				}
+			},
+		});
+		
+	});
+</script>
+	<SCRIPT type="text/javascript">
+		<!--
+		var setting = {
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			view: {
+				nameIsHTML: true,
+				txtSelectedEnable: true
+			}
+		};
+
+		var zNodes2 =[ {{ category_nodes|raw }}];
+
+		$(document).ready(function(){
+			$.fn.zTree.init($("#categoryList"), setting, zNodes2);
+		});
+		//-->
+	</SCRIPT>
+{% include 'knowledgebase_leftbar.html' %}
+<div style="margin-left:260px;">
+	{% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
+{% if params.1 == 'category_updated' %}{{ success_message(LANG.CATEGORY_UPDATED) }}
+{% elseif params.1 == 'category_added' %}{{ success_message(LANG.CATEGORY_INSERTED) }}
+{% elseif params.1 == 'category_removed' %}{{ success_message(LANG.CATEGORY_REMOVED) }}
+{% endif %}
+	<div id="tabs">
+    	<ul>
+        	<li>{{ LANG.CATEGORIES }}</li>
+        </ul>
+        <div id="categories">
+        	<input type="button" name="btn" value="{{ LANG.INSERT_CATEGORY }}" onclick="showKBCategoryForm(0,0);" />
+        	<ul id="categoryList" class="ztree"></ul>
+        </div>
+    </div>
+        
+</div>
+<div class="clear"></div>
+{% endblock %}

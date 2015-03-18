@@ -1,0 +1,107 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.SUBMIT_A_TICKET }}{% endblock %}
+{% block content %}
+<div class="title">{{ LANG.YOUR_TICKET_DETAILS }}</div>
+{{ LANG.ENTER_TICKET_DETAILS }}
+<br /><br />
+{% if error_msg != '' %}{{ error_message(error_msg) }}<br />{% endif %}
+<form method="post" action="{{ getUrl('submit_ticket','confirmation') }}" enctype="multipart/form-data">
+<input type="hidden" name="csrfhash" value="{{ getToken('submit_ticket') }}" />
+<input type="hidden" name="department" value="{{ department_id }}" />
+<table width="100%" cellspacing="1" cellpadding="4" border="0">
+    <tr>
+        <td colspan="2" class="tbl-title"><strong>{{ LANG.GENERAL_INFORMATION }}</strong></td>
+    </tr>
+    {% if client_status != 1 %}
+    <tr>
+            <td class="zebraodd" nowrap="nowrap"><span class="{% if  'fullname' in emptyvars %}redtxt{% endif %}">{{ LANG.FULL_NAME }}:</span> <span class="redtxt">*</span> 
+            </td>
+            <td>
+            <input type="text" name="fullname" size="30" value="{{ POST.fullname }}" />
+            </td>            
+    </tr>
+    <tr>
+        <td class="zebraodd"><span class="{% if 'email' in emptyvars %}redtxt{% endif %}">{{ LANG.EMAIL }}:</span> <span class="redtxt">*</span> </td>
+        <td>
+        <input type="text" name="email" size="30" value="{{ POST.email }}"  />
+        </td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td width="200" class="zebraodd"><span class="{% if 'priority' in emptyvars %}redtxt{% endif %}">{{ LANG.PRIORITY }}:</span></td>
+        <td>
+        <select name="priority">
+            {% for priority in priority %}
+            <option value="{{ priority.id }}" style="color:{{ priority.color }}" {% if POST.priority == priority.id %}selected{% endif %}>{{ priority.name }}</option>
+            {% endfor %}
+        </select>
+        </td>
+    </tr>
+    {% for customfields in customfields %}
+	<tr>
+		<td class="zebraodd"><span class="{% if 'custom_'~customfields.id in emptyvars %}redtxt{% endif %}">{{ customfields.title }}</span>{% if customfields.required == 1 %} <span class="redtxt">*</span>{% endif %}</td>
+        <td>
+        {% if customfields.type == 'text' or customfields.type == 'password' %}
+            <input type="{{ customfields.type }}" name="custom[{{ customfields.id }}]" value="{% if POST['custom'][customfields.id] != '' %}{{ POST['custom'][customfields.id] }}{% else %}{{ customfields.value }}{% endif %}" size="30">
+        {% elseif customfields.type == 'textarea' %}
+            <textarea name="custom[{{ customfields.id }}]" style="width:100%">{% if POST['custom'][customfields.id] != '' %}{{ POST['custom'][customfields.id] }}{% else %}{{ customfields.value }}{% endif %}</textarea>
+        {% elseif customfields.type == 'checkbox' %}
+        	{% for key, value in customfields.value %}
+                <label>{{ value }} <input type="checkbox" name="custom[{{ customfields.id }}][{{ key }}]" value="{{ key }}" style="vertical-align: baseline;" {% if key in POST['custom'][customfields.id] %}checked{% endif %}></label> &nbsp;
+            {% endfor %}
+        {% elseif customfields.type == 'radio' %}
+            {% for key, value in customfields.value %}
+                <label>{{ value }} <input type="radio" name="custom[{{ customfields.id }}]" value="{{ key }}" style="vertical-align: baseline;" {% if POST['custom'][customfields.id] == key %}checked{% endif %}></label> &nbsp;
+            {% endfor %}
+        {% elseif customfields.type == 'select' %}
+            <select name="custom[{{ customfields.id }}]">
+            {% for key, value in customfields.value %}
+                <option value="{{ key }}" {% if POST['custom'][customfields.id] == key %}selected{% endif %}>{{ value }}</option>
+            {% endfor %}
+            </select>
+        {% endif %}
+        </td></tr>
+    {% endfor %}
+</table>
+        
+        
+<table width="100%" cellspacing="1" cellpadding="4" border="0">
+    <tr>
+        <td colspan="2" class="tbl-title"><strong>{{ LANG.YOUR_MESSAGE }}</strong></td>
+    </tr>
+        <tr>
+            <td width="200" class="zebraodd"><span class="{% if 'subject' in emptyvars %}redtxt{% endif %}">{{ LANG.SUBJECT }}</span> <span class="redtxt">*</span></td>
+            <td><input type="text" name="subject" style="width:100%" value="{{ POST.subject }}" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+            <textarea style="width:100%;" rows="16" cols="25" name="message">{{ POST.message }}</textarea>
+            </td>
+        </tr>
+</table>
+<table width="100%" cellpadding="1" cellpadding="4" border="0">
+    <tr>
+        <td class="tbl-title"><strong>{{ LANG.ATTACHMENTS }}</strong></td>
+    </tr>
+    <tr>
+        <td><input type="file" name="attachment" /></td>
+    </tr>
+</table>
+        {% if settings.use_captcha %}
+            <table width="100%" cellspacing="1" cellpadding="4" border="0">
+        	<tr>
+            	<td class="tbl-title" colspan="2"><strong>{{ LANG.CAPTCHA_VERIFICATION }}</strong></td>
+            </tr>
+            <tr>
+            	<td colspan="2" class="{% if 'captcha' in emptyvars %}redtxt{% endif %}">{{ LANG.ENTER_TEXT_CAPTCHA }}</td>
+            </tr>
+            	<tr>
+                    <td valign="middle" width="180"><img src="{{ getUrl('') }}/captcha.php" /></td>
+                	<td valign="middle"><input type="text" name="captcha" size="30" style="text-transform:uppercase" />                   </td>
+                </tr>
+            </table>
+        {% endif %}
+        <input type="submit" name="btn" value="{{ LANG.SUBMIT }}" >
+
+        </form>
+{% endblock %}

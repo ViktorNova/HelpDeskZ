@@ -1,0 +1,38 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.MY_PROFILE }}{% endblock %}
+{% block content %}
+<div class="title">{{ LANG.MY_PROFILE }}</div>
+{% set foo = {'0': 'save'} %}
+<form method="post" action="{{ getUrl('user_account','profile',foo) }}">
+{% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
+{% if params.0 == 'saved' %}{{ success_message(LANG.YOUR_PROFILE_UPDATED) }}{% endif %}
+<table width="100%" cellspacing="1" cellpadding="4" border="0">
+	<tr>
+    	<td colspan="2"><strong>{{ LANG.GENERAL_INFORMATION }}</strong></td>
+    </tr>
+    <tr>
+    	<td class="zebraodd" width="200">{{ LANG.FULL_NAME }}:</td>
+        <td>
+        <div><select name="salutation">
+        {% for key,value in salutation %}
+            {% if key == user.salutation %}
+            <option value="{{ key }}" selected>{{ value }}</option>
+            {% else %}
+            <option value="{{ key }}">{{ value }}</option>
+            {% endif %}
+         {% endfor %}
+        </select></div>
+        <input type="text" name="fullname" value="{{ user.fullname }}" size="60" />
+        </td>
+    </tr>
+	<tr>
+    	<td class="zebraodd" width="200">{{ LANG.EMAIL }}:</td>
+        <td><input type="text" name="email" value="{{ user.email }}" size="60" /></td>
+    </tr>
+    <tr>
+    	<td colspan="2"><input type="submit" value="{{ LANG.UPDATE }}" /></td>
+    </tr>
+</table>
+<input type="hidden" name="csrfhash" value="{{ getToken('profile') }}" />
+</form>
+{% endblock %}

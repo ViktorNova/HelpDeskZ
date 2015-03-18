@@ -1,0 +1,68 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.MANAGE_NEWS }}{% endblock %}
+{% block content %}
+{% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
+<script>
+	var csrfhash = '{{ getToken('news') }}'; 
+	$(document).ready(function(){
+		$(".csrfhash").val(csrfhash);
+	});
+</script>
+
+<form method="post" action="{{ getUrl(controller,action,['manage','page',page,orderby,sortby],getvar) }}">
+<input type="hidden" name="do" value="update" />
+<input type="hidden" name="csrfhash" class="csrfhash" />
+{{ ticketpaginator(total_pages,page,getUrl(controller,action,['page','#page#',orderby,sortby])) }}
+<table  class="widget-table">
+    <thead class="titles">
+        <tr>
+        	<th><input type="checkbox" id="selectall" /></th>
+            <th {% if params.3 == 'title' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['manage','page',page,'title',(params.4=='desc'?'asc':'desc')],getvar) }}">{{ LANG.TITLE }}</a></th>
+            <th {% if params.3 == 'author' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['manage','page',page,'author',(params.4=='desc'?'asc':'desc')],getvar) }}">{{ LANG.AUTHOR }}</a></th>
+            <th {% if params.3 == 'public' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['manage','page',page,'public',(params.4=='desc'?'asc':'desc')],getvar) }}">{{ LANG.TYPE }}</a></th>
+            <th {% if params.3 == 'date' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['manage','page',page,'date',(params.4=='desc'?'asc':'desc')],getvar) }}">{{ LANG.CREATION_DATE }}</a></th>
+        </tr>
+    </thead>
+    {% if news_result|is_array %}
+    {% for r in news_result %}
+	{% set tdclass = (tdclass == 'trzebra'?'':'trzebra') %}
+	<tr class="{{ tdclass }}">
+        <td width="15"><input type="checkbox" name="news_id[]" value="{{ r.id }}" class="checkall"></td>
+        <td><a href="{{ getUrl(controller,action,['manage','edit',r.id]) }}">{{ r.title }}</a></td>
+        <td><a href="{{ getUrl(controller,action,['manage','edit',r.id]) }}">{{ r.author }}</a></td>
+        <td>{{ (r.public == 1?LANG.PUBLIC:LANG.PRIVATE) }}</td>
+        <td>{{ displayDate(r.date) }}</td>
+	</tr>
+	{% endfor %}
+    {% else %}
+	<tr><td colspan="9"><i>{{ LANG.NOTHING_TO_DISPLAY }}</i></td></tr>	
+	{% endif %}
+</table>
+<div id="options" style="margin-top:20px; display:none;">
+    <div id="tabs">
+        <ul>
+            <li>{{ LANG.MASS_ACTION }}</li>
+        </ul>
+        <div id="tab1">
+            <div id="ctab1">
+                <table  class="widget-table-form">
+                     <tr>
+                        <td width="200">{{ LANG.REMOVE }}:</td>
+                        <td>
+                        <select name="remove">
+                            <option value="">-- {{ LANG.NO }} --</option>
+                            <option value="1">{{ LANG.YES }}</option>
+                        </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" name="btn" value="Update" /></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+	</div>
+</div>
+</form>
+<div class="clear"></div>
+{% endblock %}

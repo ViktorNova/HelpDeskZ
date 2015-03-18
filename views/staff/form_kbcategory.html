@@ -1,0 +1,36 @@
+<form method="post" action="{{ form_action }}">
+<table class="widget-table-form">
+	<tr>
+    	<td width="250">{{ LANG.CATEGORY_TITLE }}<br /><span class="description">{{ LANG.CATEGORY_TITLE_TXT }}</span></td>
+		<td><input type="text" style="width:100%" name="title" value="{{ category.name }}" /></td>
+	</tr>
+    <tr>
+    	<td>{{ LANG.PARENT_CATEGORY }}<br /><span class="description">{{ LANG.PARENT_CATEGORY_TXT }}</span></td>
+		<td><select name="parent" id="parentselector">
+        <option value=0 selected="selected">{{ LANG.ROOT_CATEGORY }}</option>
+        {% for selector in selector %}
+        <option value="{{ selector.id }}">{{ selector.name }}</option>
+        {% endfor %}
+        </select></td>
+	</tr>
+	<tr>
+    	<td>{{ LANG.DISPLAY_ORDER }}:<br /><span class="description">{{ LANG.DISPLAY_ORDER_KB_TXT }}</span></td>
+		<td><input type="text" style="width:100%" name="position" value="{{ cat_position }}" /></td>
+	</tr>
+	<tr>
+    	<td valign="top">{{ LANG.TYPE }}</td>
+		<td><label><input type="radio" name="public" value="1" {% if category.public == 1 or category.public == '' %}checked="checked"{% endif %} /> {{ LANG.PUBLIC }}</label><br /><span class="description">{{ LANG.CATEGORY_PUBLIC_TXT }}</span><br />
+<label><input type="radio" name="public" value="0" {% if category.public == 0 %}checked="checked"{% endif %} /> {{ LANG.PRIVATE }}</label><br /><span class="description">{{ LANG.CATEGORY_PRIVATE_TXT }}</span>
+        </td>
+	</tr>
+    <tr>
+    	<td></td>
+        <td><input type="submit" name="btn" value="{{ LANG.SUBMIT }}" />
+        {% if category|is_array %}
+		<input type="hidden" name="catID" value="{{ category.id }}">
+		<input type="button" name="btn" value="{{ LANG.DELETE_CATEGORY }}" onclick="if(confirm('{{ LANG.CONFIRM_REMOVE }}')){location.href='{{ getUrl(controller, action,['categories', 'RemoveData',category.id]) }}';}">
+		{% endif %}
+        </td>
+    </tr>
+</table>
+</form>

@@ -1,0 +1,21 @@
+<form method="post" action="{{ form_action }}">
+{% if file_type|is_array %}
+<input type="hidden" name="do" value="update" /> <input type="hidden" name="filetypeid" value="{{ file_type.id }}" />
+{% else %}
+<input type="hidden" name="do" value="insert" />
+{% endif %}
+<table class="widget-table-form">
+	<tr>
+    	<td width="250">{{ LANG.FILE_EXTENSION }}<br /><span class="description">{{ LANG.FILE_EXTENSION_INFO }}</span></td>
+		<td><input type="text" style="width:100%" name="type" value="{{ file_type.type }}" /></td>
+	</tr>
+    <tr>
+    	<td>{{ LANG.MAXIMUM_SIZE }}<br /><span class="description">{{ LANG.MAXIMUM_SIZE_INFO }}</span></td>
+		<td><input type="text" style="width:100%" name="size" value="{% if file_type|is_array %}{{ file_type.size/1024 }}{% else %}0{% endif %}" /></td>
+	</tr>
+    <tr>
+    	<td></td>
+        <td><input type="submit" name="btn" value="{{ LANG.SUBMIT }}" /></td>
+    </tr>
+</table>
+</form>

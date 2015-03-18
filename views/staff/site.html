@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>HelpDeskZ: {% block title %}{% endblock %}</title>
+<link href="{{ settings.site_url }}/css/staff.css" rel="stylesheet" type="text/css" />
+<link href="{{ settings.site_url }}/js/jqueryui/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{{ settings.site_url }}/js/jquery.js"></script>
+<script type="text/javascript" src="{{ settings.site_url }}/js/jqueryui/jquery-ui.js"></script>
+<script type="text/javascript" src="{{ settings.site_url }}/js/jrtabs.js"></script>
+<script type="text/javascript" src="{{ settings.site_url }}/js/staff.js"></script>
+<script type="text/javascript" src="{{ settings.site_url }}/js/jquerytreeview/src/jquery.fancytree.js"></script>
+<link href="{{ settings.site_url }}/js/jquerytreeview/src/custom-skin-1/ui.fancytree.css" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" href="{{ settings.site_url }}/js/ztree/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="{{ settings.site_url }}/js/ztree/jquery.ztree.core-3.5.js"></script>
+
+<script type="text/javascript">
+var _baseURL = '{{ getUrl(controller) }}';
+</script>
+</head>
+
+<body>
+<div id="dialog_loader" style="display:none">
+<div align="center" style="padding:20px"><h3>Loading</h3></div>
+</div>
+<div id="container_dialog" title="" style="display:none"></div>
+
+<div id="wrapper">
+    <div id="header">
+		<div id="logo">
+			<a href="{{ getUrl(controller) }}"></a>
+        </div>
+        <div id="navbar">
+        	<div {% if action == 'dashboard' or action == 'preferences' or action == 'index' %} class="current"{% endif %}>
+            	<span id="m1">{{ LANG.HOME }}</span>
+            </div>
+            <div {% if action == 'tickets' %}class="current"{% endif %}>
+            	<span id="m2">{{ LANG.TICKETS }}</span>
+            </div>
+            <div {% if action == 'knowledgebase' %}class="current"{% endif %}>
+            	<span id="m3">{{ LANG.KNOWLEDGEBASE }}</span>
+            </div>
+            <div {% if action == 'news' %}class="current"{% endif %}>
+            	<span id="m4">{{ LANG.NEWS }}</span>
+            </div>
+            <div {% if action == 'users' %}class="current"{% endif %}>
+            	<span id="m5">{{ LANG.USERS }}</span>
+            </div>
+            {% if staff.admin == 1 %}
+            <div {% if action == 'settings' %}class="current"{% endif %}>
+            	<span id="m6">{{ LANG.SETTINGS }}</span>
+            </div>
+            {% endif %}
+        </div>
+        <div class="clear"></div>
+        <div id="submenu">
+        	<ul {% if action != 'dashboard' and action != 'preferences' and action != 'index' %}style="display:none;"{% endif %} id="sm1">
+            	<li><a href="{{ getUrl(controller,'dashboard') }}" {% if (action == 'dashboard' or action == 'index') and params.0 == '' %}class="current"{% endif %}>{{ LANG.DASHBOARD }}</a></li>
+            	<li><a href="{{ getUrl(controller,'preferences') }}" {% if action == 'preferences' %}class="current"{% endif %}>{{ LANG.MY_PREFERENCES }}</a></li>
+            </ul>
+        	<ul {% if action != 'tickets' %}style="display:none;"{% endif %} id="sm2">
+            	<li><a href="{{ getUrl(controller,'tickets') }}" {% if action == 'tickets' and params.0 != 'canned' and (input.g['do'] != 'search' or input.g['status'] == '') %}class="current"{% endif %}>{{ LANG.MANAGE_TICKETS }}</a></li>
+            	<li><a href="{{ getUrl(controller,'tickets',null,'do=search&status=1') }}" {% if action == 'tickets' and input.g['do'] == 'search' and input.g['status'] == '1' %}class="current"{% endif %}>{{ LANG.OPEN }}</a></li>
+            	<li><a href="{{ getUrl(controller,'tickets',null,'do=search&status=3') }}" {% if action == 'tickets'and input.g['do'] == 'search' and input.g['status'] == '3' %}class="current"{% endif %}>{{ LANG.AWAITING_REPLY }}</a></li>
+				<li><a href="{{ getUrl(controller,'tickets',null,'do=search&status=4') }}" {% if action == 'tickets' and input.g['do'] == 'search' and input.g['status'] == '4' %}class="current"{% endif %}>{{ LANG.IN_PROGRESS }}</a></li>
+				<li><a href="{{ getUrl(controller,'tickets',null,'do=search&status=2') }}" {% if action == 'tickets' and input.g['do'] == 'search' and input.g['status'] == '2' %}class="current"{% endif %}>{{ LANG.ANSWERED }}</a></li>
+				<li><a href="{{ getUrl(controller,'tickets',null,'do=search&status=5') }}" {% if action == 'tickets' and input.g['do'] == 'search' and input.g['status'] == '5' %}class="current"{% endif %}>{{ LANG.CLOSED }}</a></li>
+            	<li><a href="{{ getUrl(controller,'tickets','canned') }}" {% if params.0 == 'canned' %}class="current" {% endif %}>{{ LANG.CANNED_RESPONSE }}</a></li>
+            </ul>
+        	<ul {% if action != 'knowledgebase' %}style="display:none;"{% endif %} id="sm3">
+            	<li><a href="{{ getUrl(controller,'knowledgebase','preview') }}" {% if action == 'knowledgebase' and params.0 == 'preview' %}class="current"{% endif %}>{{ LANG.VIEW_KNOWLEDGEBASE }}</a></li>
+            	<li><a href="{{ getUrl(controller,'knowledgebase','manage') }}" {% if action == 'knowledgebase' and params.0 == 'manage' %}class="current"{% endif %}>{{ LANG.MANAGE_KNOWLEDGEBASE }}</a></li>
+            	<li><a href="{{ getUrl(controller,'knowledgebase','categories') }}" {% if action == 'knowledgebase' and params.0 == 'categories' %}class="current"{% endif %}>{{ LANG.CATEGORIES }}</a></li>
+            	<li><a href="{{ getUrl(controller,'knowledgebase','article') }}" {% if action == 'knowledgebase' and params.0 == 'article' %}class="current"{% endif %}>{{ LANG.NEW_ARTICLE }}</a></li>
+            </ul>
+            
+        	<ul {% if action != 'news' %}style="display:none;"{% endif %} id="sm4">
+            	<li><a href="{{ getUrl(controller,'news','view') }}" {% if action == 'news' and params.0 == 'view' %}class="current"{% endif %}>{{ LANG.VIEW_NEWS }}</a></li>
+            	<li><a href="{{ getUrl(controller,'news','manage') }}" {% if action == 'news' and params.0 == 'manage' %}class="current"{% endif %}>{{ LANG.MANAGE_NEWS }}</a></li>
+            	<li><a href="{{ getUrl(controller,'news','insert') }}" {% if action == 'news' and params.0 == 'insert' %}class="current"{% endif %}>{{ LANG.INSERT_NEWS }}</a></li>
+            </ul>
+        	<ul {% if action != 'users' %}style="display:none;"{% endif %} id="sm5">
+            	<li><a href="{{ getUrl(controller,'users','manage') }}" {% if action == 'users' and params.0 == 'manage' %}class="current"{% endif %}>{{ LANG.MANAGE_USERS }}</a></li>
+            </ul>
+            {% if staff.admin == 1 %}
+        	<ul {% if action != 'settings' %}style="display:none;"{% endif %} id="sm6">
+            	<li><a href="{{ getUrl(controller,'settings', 'general') }}" {% if action == 'settings' and params.0 == 'general' %}class="current"{% endif %}>{{ LANG.GENERAL }}</a></li>
+            	<li><a href="{{ getUrl(controller,'settings', 'tickets') }}" {% if action == 'settings' and params.0 == 'tickets' %}class="current"{% endif %}>{{ LANG.TICKETS }}</a></li>
+            	<li><a href="{{ getUrl(controller,'settings', 'email_template') }}" {% if action == 'settings' and params.0 == 'email_template' %}class="current"{% endif %}>{{ LANG.EMAIL_TEMPLATE }}</a></li>
+            	<li><a href="{{ getUrl(controller,'settings', 'departments') }}" {% if action == 'settings' and params.0 == 'departments' %}class="current"{% endif %}>{{ LANG.DEPARTMENTS }}</a></li>
+            	<li><a href="{{ getUrl(controller,'settings', 'staff') }}" {% if action == 'settings' and params.0 == 'staff' %}class="current"{% endif %}>{{ LANG.STAFF }}</a></li>
+            </ul>
+            {% endif %}
+            
+            
+            <div class="logout"><a href="{{ getUrl(controller,'logout') }}">{{ LANG.LOGOUT }}: {{ staff.username }}</a></div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div id="content">
+	{% block content %}{% endblock %}
+    </div>
+    <div id="footer"><a href="http://www.helpdeskz.com">Help Desk Software</a> by HelpDeskZ.</div>
+</div>
+
+</body>
+</html>

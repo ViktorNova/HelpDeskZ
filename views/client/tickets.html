@@ -1,0 +1,42 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.VIEW_TICKETS }}{% endblock %}
+{% block content %}
+<div class="searchboxcontainer">
+<form method="post" action="{{ getUrl('view_tickets','search') }}">
+<input type="submit" value="{{ LANG.SEARCH }}" class="search_button" />
+<input type="text" name="code" class="search_input" placeholder="{{ LANG.SEARCH_TICKET_ID }}" />
+</form>
+</div>
+
+<div class="title">{{ LANG.VIEW_TICKETS }}</div>
+<div>{{ LANG.VIEW_TICKETS_DESCRIPTION }}</div>
+
+{% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
+{% set foo = {'0': '#page#'} %}
+{{ ticketpaginator(total_pages,page,getUrl('view_tickets','page',foo)) }}
+        	<table width="100%" class="ticket_tbl">
+            	<tr>
+                	<th class="td_1">{{ LANG.TICKET_ID }}</th>
+                    <th class="td_1">{{ LANG.LAST_UPDATE }}</th>
+                    <th class="td_1">{{ LANG.DEPARTMENT }}</th>
+                    <th class="td_1">{{ LANG.STATUS }}</th>
+                    <th class="td_1">{{ LANG.PRIORITY }}</th>
+                </tr>
+                {% for ticket in tickets %}
+                {% set arr = {'0': ticket.id} %}
+                <tr>
+                	<td colspan="5"><a href="{{ getUrl('view_tickets','ticket',arr) }}" class="ticket_subject">{{ ticket.subject }}</a></td>
+                </tr>
+            	<tr class="ticket_details">
+                	<td>#{{ ticket.code }}</td>
+                    <td align="center">{{ displayDate(ticket.last_update) }}</td>
+                    <td align="center">{{ departments[ticket.department_id] }}</td>
+                    <td align="center">{{ ticket_status[ticket.status] }}</td>
+                    <td align="center">{{ priority[ticket.priority_id]['name'] }}</td>
+                </tr>
+                <tr>
+                	<td colspan="5"></td>
+                </tr>
+                {% endfor %}
+            </table>
+{% endblock %}

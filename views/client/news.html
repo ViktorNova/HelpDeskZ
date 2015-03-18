@@ -1,0 +1,39 @@
+{% extends "site.html" %}
+{% block title %}{{ LANG.NEWS }}{% endblock %}
+{% block content %}
+<div class="title">{{ LANG.NEWS }}</div>
+	{% for news in news %}
+    <table>
+        <tr>
+            <td rowspan="2">
+                <div class="calendar">
+                    <div class="day">{{ news.date|date("d") }}</div>           
+                    <div class="month">{{ news.date|date("M") }}</div>
+                </div>
+            </td>
+            <td valign="bottom">
+                <div class="newstitle"><a href="{{ news.url }}">{{ news.title }}</a></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+        <div class="newsdescription">{{ LANG.POSTED_BY_ON|replace({'%author%':news.author, '%date%':displayDate(news.date)}) }}</div>
+            </td>
+        </tr>
+    </table>
+            <div class="newscontent">{{ news.content|raw }}</div>
+	{% endfor %}
+            
+{% if total_pages > 0 %}
+    <div class="newspaginator">
+    {% if total_pages > page %}
+    {% set prev_page = {0: page+1} %}
+    <a href="{{ getUrl(controller,'page',prev_page) }}">&laquo; {{ LANG.OLDEST_POSTS }}</a>
+    {% endif %}
+    {% if page != 1 %}
+    {% set next_page = {0: page-1} %}
+    <a href="{{ getUrl(controller,'page',next_page) }}">{{ LANG.NEWEST_POSTS }} &raquo;</a>
+    {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

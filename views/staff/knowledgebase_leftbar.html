@@ -1,0 +1,48 @@
+<script type="text/javascript">
+$(function(){
+		$("#tree").fancytree({
+			minExpandLevel: 2,
+			activate: function(e, data){
+				var node = data.node;
+				if(node.data.href){
+					location.href=node.data.href;
+				}
+			},
+
+		});
+});
+</script>
+
+
+
+<SCRIPT type="text/javascript">
+	<!--
+	var setting = {
+		data: {
+			simpleData: {
+				enable: true
+			}
+		},
+		view: {
+			nameIsHTML: true
+		}
+	};
+
+	var zNodes =[{{ filter_bar|raw }}];
+
+	$(document).ready(function(){
+		$.fn.zTree.init($("#ticketcatlist"), setting, zNodes);
+	});
+	//-->
+</SCRIPT>
+
+<div class="search_block">
+    <div id="quicktabs">
+            <ul>
+                <li>{{ LANG.QUICK_FILTER }}</li>
+            </ul>
+            <div id="quickfilter">
+            	<ul id="ticketcatlist" class="ztree"></ul>
+            </div>
+    </div>    
+</div>

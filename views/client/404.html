@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{{ LANG.PAGE_NOT_FOUND }}</title>
+<meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+<style type="text/css">
+	html, body {
+		background-color: #fff;
+		text-align: center;
+	}
+	#content {
+		margin: 10% auto 0px auto;
+		font-family: verdana, Helvetica, sans-serif;
+		font-size: 0.8em;
+		color: white;
+		height: 90%;
+	}
+
+	#content .secondary {
+		color: #b8bac0;
+		font-size: 0.8em;
+	}
+
+	#content a:link, #content a:visited, #content a:active
+	{
+		background: #92969b;
+		color: white;
+		text-decoration: none;
+		padding: 5px;
+	}
+
+	#content a:hover
+	{
+		background: #646a6f;
+		color: white;
+	}
+
+</style>
+</head>
+<body>
+	<div id="content">
+		<p><img alt="We couldn't find what you were looking for" src="{{ getUrl('') }}/images/404.png" /></p>
+		<p><a href="{{ getUrl('') }}">{{ LANG.CLICK_TO_BACK_HELPDESK }}</a></p>
+	</div>
+</body>
+</html>

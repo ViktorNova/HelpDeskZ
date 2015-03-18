@@ -1,0 +1,79 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.VIEW_TICKET_ID|replace({'%id%':ticket.code}) }}{% endblock %}
+{% block content %}
+<div class="title">{{ LANG.VIEW_TICKET_ID|replace({'%id%':ticket.code}) }}</div>
+
+<div class="ticket_information">
+    <div class="ticket_subject">
+        <div>{{ ticket.subject }}</div>
+        <small>{{ LANG.CREATED }}: {{ displayDate(ticket.date) }} &nbsp; &nbsp; &nbsp; {{ LANG.UPDATED }}: {{ displayDate(ticket.last_update) }}</small>
+    </div>
+    <div class="ticket_details">
+        <div class="ticket_details_block">
+            <div class="b_title">{{ LANG.DEPARTMENT }}</div>
+            <div>{{ ticket.department }}</div>
+        </div>
+        <div class="ticket_details_block">
+            <div class="b_title">{{ LANG.STATUS }}</div>
+            <div>{{ ticket_status[ticket.status] }}</div>
+        </div>
+        <div class="ticket_details_block">
+            <div class="b_title">{{ LANG.PRIORITY }}</div>
+            <div>{{ ticket.priority }}</div>
+        </div>
+    </div>
+</div>
+        
+{% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
+{% if ticket.status == 'Closed' %}{{ error_message(LANG.TICKET_IS_CLOSED) }}{% endif %}
+
+{% if ticket.status != 'Closed' or settings.ticket_reopen %}
+<div><input type="button" name="btn" value="{{ LANG.ADD_REPLY }}" onclick="$(this).hide(); $('#reply').show();" {% if error_msg != '' %}style="display:none;"{% endif %} />
+{% set foo = {'0': ticket.id, '1':'reply'} %}
+<form method="post" action="{{ getUrl('view_tickets', 'ticket', foo) }}" name="reply" id="reply" {% if error_msg == '' %}style="display:none;"{% endif %}  enctype="multipart/form-data">
+    <div style="font-size:18px">{{ LANG.YOUR_MESSAGE }}</div>
+    <div><textarea style="width:100%;" name="message" rows="16" cols="25">{{ POST.message }}</textarea>
+    </div>
+    {% if settings.ticket_attachment == 1 %}
+    <div style="font-size:18px">{{ LANG.ATTACHMENTS }}</div>
+    <div><input type="file" name="attachment" /></div>
+    <br /><input type="submit" name="btn2" value="{{ LANG.SUBMIT }}" />
+    {% endif %}
+</form>     
+</div>	
+{% endif %}
+
+{% if params[1] == 'sent' %}{{ success_message(LANG.YOUR_REPLY_SENT) }}{% endif %}
+
+{% for messages in messages %}
+<div class="ticket_conversation {% if messages.customer == 0 %}staff_message{% endif %}">
+    <div class="{% if messages.customer == 0 %}ticket_staff{% else %}ticket_user{% endif %}">
+    	{% if messages.customer == 1 %}
+        	{{ ticket.fullname }}
+            <small>{{ LANG.USER }}</small>
+		{% else %}
+             {% if settings.hide_staff == 1 %}
+             {{ settings.site_name }} {{ LANG.STAFF }}
+             {% else %}
+             {{ messages.name }}
+             <small>{{ LANG.STAFF }}</small>
+             {% endif %}
+		{% endif %}
+    </div>
+    <div class="ticket_message">
+           <div class="ticket_date">{{ LANG.POSTED_ON }} : {{ displayDate(messages.date) }}</div>
+            <div class="ticket_msg">
+            {{ messages.message|nl2br }}
+            {% if messages.attachments.total != 0 %}
+            	{% set attachlink = {'0': messages.ticket_id, '1':'attachment', '2': messages.attachments.id, '3': messages.id} %}
+				<div style="padding-top:10px; font-size:14px;"><i><strong>{{ LANG.ATTACHMENTS }}</strong></i></div>	
+                <div><span class="knowledgebaseattachmenticon"></span> <a href="{{ getUrl(controller,action,attachlink) }}" target="_blank">{{ messages.attachments.name }} ({{ messages.attachments.filesize }})</a></div>
+            {% endif %}
+            </div>
+    </div>
+</div>
+{% endfor %}
+
+{% set foo = {'0': ticket.id, '1':'#page#'} %}
+{{ ticketpaginator(total_pages,page,getUrl('view_tickets','ticket', foo)) }}
+{% endblock %}

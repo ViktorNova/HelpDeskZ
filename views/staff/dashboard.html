@@ -1,0 +1,109 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.DASHBOARD }}{% endblock %}
+{% block content %}
+<div id="home_title">{{ LANG.DASHBOARD }}</div>
+<div id="home_content">
+    <div id="home_left">
+        <div id="avatar"><img src="{{ getUrl() }}/images/default_avatar.png" /></div>
+        <div id="information">
+            <div id="fullname">{{ staff.fullname }}</div>
+            <div id="extrainfo">
+                <div>{{ LANG.USERNAME }}: {{ staff.username }}</div>
+                <div>{{ LANG.EMAIL_ADDRESS }}: {{ staff.email }}</div>
+                <div>{{ LANG.LAST_LOGIN }}: {{ displayDate(staff.last_login) }}</div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div id="calendar">
+        <div class="top">{{ "now"|date("M") }}</div>
+        <div class="day">
+            <small>{{ "now"|date("l") }}</small>
+            <div>{{ "now"|date("d") }}</div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <h2>{{ LANG.TICKET_SUMMARY }}</h2>
+    <div class="ticket_summary">
+        <ul>
+            <li><div onclick="location.href='{{ getUrl(controller,'tickets',null,'do=search&status=1') }}';">{{ LANG.OPEN }}<span>{{ tickets_summary.open }}</span></div></li>
+            <li><div onclick="location.href='{{ getUrl(controller,'tickets',null,'do=search&status=3') }}';">{{ LANG.AWAITING_REPLY }}<span>{{ tickets_summary.awaiting_reply }}</span></div></li>
+            <li><div onclick="location.href='{{ getUrl(controller,'tickets',null,'do=search&status=4') }}';">{{ LANG.IN_PROGRESS }}<span>{{ tickets_summary.in_progress }}</span></div></li>
+            <li><div onclick="location.href='{{ getUrl(controller,'tickets',null,'do=search&status=2') }}';">{{ LANG.ANSWERED }}<span>{{ tickets_summary.answered }}</span></div></li>
+            <li><div onclick="location.href='{{ getUrl(controller,'tickets',null,'do=search&status=5') }}';">{{ LANG.CLOSED }}<span>{{ tickets_summary.closed }}</span></div></li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div id="home_tabs">
+        <ul>
+            <li id="htab1" class="active">{{ LANG.WELCOME }}</li>
+            <li id="htab2">{{ LANG.LOGIN_HISTORY }}</li>
+            <li id="htab3">{{ LANG.PRODUCT_INFORMATION }}</li>
+        </ul>
+    </div>           
+    <div id="home_tabs_content">
+        <div class="htab1 home_tab_content">
+            <table class="home_tab_tbl">
+                <tr>
+                    <th nowrap="nowrap" rowspan="2" width="auto">{{ LANG.NEWS }}</th>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td class="linetbl">
+                    </td>
+                </tr>
+            </table>
+            {% for news in lastestnews %}
+            {% set n = {0: 'view', 1: news.id} %}
+            <div class="newstitle"><a href="{{ getUrl(controller,'news',n) }}">{{ news.title }}</a></div>
+            <div class="newsdescription">{{ LANG.POSTED_BY_ON|replace({'%author%':news.author, '%date%':displayDate(news.date)}) }}</div>
+            <div class="newscontent">{{ news.content|raw }}</div>
+            {% endfor %}
+        </div>
+        <div class="htab2 home_tab_content" style="display:none">
+            <table class="home_tab_tbl">
+                <tr>
+                    <th nowrap="nowrap" rowspan="2" width="auto">{{ LANG.LOGIN_HISTORY }}</th>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td class="linetbl"> </td>
+                </tr>
+            </table>
+            <table width="100%" class="widget-table">
+                <thead>
+                    <tr>
+                        <th>{{ LANG.IP_ADDRESS }}</th>
+                        <th>{{ LANG.USER_AGENT }}</th>
+                        <th>{{ LANG.DATE }}</th>
+                    </tr>
+                </thead>
+                {% for login_log in login_log %}
+                {% set trzebra = (trzebra == ''?1:'') %}
+                    <tr class="{% if trzebra == 1 %}trzebra{% endif %}">
+                            <td>{{ login_log.ip }}</td>
+                            <td>{{ login_log.agent }}</td>
+                            <td>{{ displayDate(login_log.date) }}</td>
+                        </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="htab3 home_tab_content" style="display:none">
+            <table class="home_tab_tbl">
+                <tr>
+                    <th nowrap="nowrap" rowspan="2" width="auto">{{ LANG.PRODUCT_INFORMATION }}</th>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td class="linetbl"> </td>
+                </tr>
+            </table>
+            <div>HelpDeskZ version {{ settings.helpdeskz_version }}</div>
+            <div>Copyright &copy; {{ "now"|date("Y") }}</div>
+            <div>Website: <a href="http://www.helpdeskz.com">http://www.helpdeskz.com</a></div>
+            <div>HelpDeskZ was developed by Evolution Script S.A.C. </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.EMAIL_TEMPLATE }}{% endblock %}
+{% block content %}
+{% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
+{% if params.1 == 'template_updated' %}{{ success_message(LANG.EMAIL_TEMPLATE_UPDATED) }}
+{% endif %}
+<script type="text/javascript">
+	var _emailtemplateURL = '{{ getUrl(controller,action,['email_template','getTemplateForm','']) }}';
+	function showEmailTemplate(_templateID){
+		init_loader();
+		$("#container_dialog").dialog('option', 'title', 'Edit email template');
+		$("#container_dialog").load(_emailtemplateURL+_templateID, function(){
+			container_dialog.dialog( "open" );
+			stop_loader();		
+		});
+	}
+</script>
+
+<div id="tabs">
+	<ul>
+    	<li id="tab1">{{ LANG.EMAIL_TEMPLATE }}</li>
+    </ul>
+    <div id="ctab1">
+    	<table width="100%"  class="widget-table">
+		    <thead class="titles">
+            <tr>
+                <th {% if params.1 == 'name' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['departments','name',(params.2=='desc'?'asc':'desc')]) }}">{{ LANG.NAME }}</a></th>
+            </tr>
+            </thead>
+            {% if emails|is_array %}
+            {% for r in emails %}
+            {% set tdclass = (tdclass == 'trzebra'?'':'trzebra') %}
+            <tr class="{{ tdclass }}">
+                    <td><a href="javascript:void(0);" onclick="showEmailTemplate('{{ r.id }}');">{{ r.name }}</a></td>
+            {% endfor %}
+            {% else %}
+                <tr><td colspan="9"><i>{{ LANG.NOTHING_TO_DISPLAY }}</i></td></tr>
+            {% endif %}
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,206 @@
+{% extends 'site.html' %}
+{% block title %}{{ LANG.TICKET_ID }} #{{ ticket.code }}{% endblock %}
+{% block content %}
+<script>
+	var csrfhash = '{{ getToken('ticket') }}'; 
+	var cannedmsg = {{ canned_encoded|raw }};
+	var _msgURL = '{{ getUrl(controller, action, ['view', ticket.id,'GetMsg','']) }}';
+	var _kbURL = '{{ getUrl(controller, action, ['view', ticket.id,'getKB','']) }}';
+	var _delmsgURL = '{{ getUrl(controller, action, ['view', ticket.id,'RemoveMsg','']) }}';
+	function addCannedResponse(msgid){
+		if(msgid != ''){
+			myMsg = cannedmsg[msgid]['message'];
+			myMsg = myMsg.replace(/{% raw %}{{HELPDESKZ_NAME}}{% endraw %}/g, '{{ ticket.fullname }}');
+			myMsg = myMsg.replace(/{% raw %}{{HELPDESKZ_EMAIL}}{% endraw %}/g, '{{ ticket.email }}');
+			$("#message").val($("#message").val()+myMsg);
+			$("#cannedList").val("");
+		}
+	}
+	$(function(){
+		$(".csrfhash").val(csrfhash);
+	});
+</script>
+
+{% include 'filter_bar.html' %}
+
+<div style="margin-left:260px;">
+{% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
+{% if params.2 == 'updated' %}{{ success_message(LANG.TICKET_UPDATED) }}
+{% elseif params.2 == 'replied' %}{{ success_message(LANG.MESSAGE_ADDED) }}
+{% elseif params.2 == 'MsgEdited' %}{{ success_message(LANG.MESSAGE_EDITED) }}
+{% elseif params.2 == 'AttachmentRemoved' %}{{ success_message(LANG.ATTACHMENT_REMOVED) }}
+{% endif %}
+
+<div id="tabs">
+    <ul>
+        <li>{{ LANG.GENERAL }}</li>
+        <li>{{ LANG.REPLY }}</li>
+    </ul>
+    <div id="ctab1">
+		<div class="ticket_information">
+            <div class="ticket_subject">
+                <div>{{ ticket.subject }}</div>
+                <small>{{ LANG.CREATED }}: {{ displayDate(ticket.date) }} &nbsp; &nbsp; &nbsp; {{ LANG.UPDATED }}: {{ displayDate(ticket.last_update) }}</small>
+            </div>
+            <form method="post" action="{{ getUrl(controller, action, ['view',ticket.id,'update']) }}">
+            <div class="ticket_details">
+                <div class="ticket_details_block">
+                    <div class="b_title">{{ LANG.TICKET_ID }}</div>
+                    <div><input type="text" value="{{ ticket.code }}" disabled="disabled" /></div>
+                </div>
+                <div class="ticket_details_block">
+                    <div class="b_title">{{ LANG.DEPARTMENT }}</div>
+                    <div><select name="department">
+                    {% for id,name in departments %}
+                    {% if id == ticket.department_id %}
+                    <option value="{{ id }}" selected>{{ name }}</option>
+					{% else %}
+                    <option value="{{ id }}">{{ name }}</option>
+                    {% endif %}
+                    {% endfor %}
+					</select></div>
+                </div>
+                <div class="ticket_details_block">
+                    <div class="b_title">{{ LANG.STATUS }}</div>
+                    <div><select name="status">
+                    {% for id,name in ticket_status %}
+                    {% if id == ticket.status %}
+                    <option value="{{ id }}" selected>{{ name }}</option>
+					{% else %}
+                    <option value="{{ id }}">{{ name }}</option>
+                    {% endif %}
+                    {% endfor %}
+					</select>
+                    </div>
+                </div>
+                <div class="ticket_details_block">
+                    <div class="b_title">{{ LANG.PRIORITY }}</div>
+                    <div><select name="priority">
+                    {% for val in priority %}
+                    {% if val.id == ticket.priority_id %}
+                    <option value="{{ val.id }}" selected>{{ val.name }}</option>
+					{% else %}
+                    <option value="{{ val.id }}">{{ val.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                    </select></div>
+                </div>
+            </div>
+            <div align="center" style="margin-top:10px"><input type="submit" name="btn" value="{{ LANG.UPDATE }}" /></div>
+            <input type="hidden" name="csrfhash" value="" class="csrfhash" />
+            </form>
+            
+            {% if custom_fieldsdb|is_array %}
+            {% set n = 1 %}
+            <br><table width="100%">
+            {% for r in custom_fieldsdb %}
+				{% set result = n%2 %}
+				{% if result == 1 %}
+				<tr>
+				{% endif %}
+					<td width="25%" valign="top"><strong>{{ r.title }}</strong></td><td width="25%" valign="top">
+                    {% if r.exits == 1 %}
+                    	{% if r.values|is_array %}
+                        	{% for values in r.values %}
+                            	{{ values }}<br />
+                            {% endfor %}
+                        {% else %}
+                        	{{ r.values }}
+                        {% endif %}
+                    {% endif %}
+					</td>
+				{% if result == 0 %}
+				</tr>
+				{% endif %}
+                {% set n = n+1 %}
+			{% endfor %}
+			</table>
+            {% endif %}
+        </div>
+	</div>
+    <div id="ctab2">
+  
+        <form method="post" action="{{ getUrl(controller, action, ['view',ticket.id,'reply']) }}" name="reply" id="reply" enctype="multipart/form-data">
+        <table class="widget-table-form">
+        	<tr>
+            	<td width="150">{{ LANG.FROM }}</td>
+                <td>{{ staff.fullname }} &lt;{{ staff.email }}&gt;</td>
+            </tr>
+        	<tr>
+            	<td>{{ LANG.TO }}</td>
+                <td>{{ ticket.fullname }} &lt;{{ ticket.email }}&gt;</td>
+            </tr>
+
+        	<tr>
+            	<td>{{ LANG.QUICK_INSERT }}</td>
+                <td><select name="canned" id="cannedList" style="min-width:200px" onchange="addCannedResponse(this.value);">
+                <option value="">{{ LANG.CANNED_RESPONSE }}</option>
+                {% for canned in cannedList %}
+				<option value="{{ canned.id }}">{{ canned.title }}</option>
+				{% endfor %}
+                </select> 
+                <select name="knowledgebase" id="knowledgebaseList" style="min-width:200px" onchange="addKnowledgebase(this.value);">
+	                <option value="">{{ LANG.KNOWLEDGEBASE }}</option>
+                     {{ selector|raw }}
+                </select></td>
+            </tr>
+
+        </table>
+			<div style="font-size:18px">{{ LANG.YOUR_MESSAGE }}</div>
+            <div><textarea style="width:100%;" name="message" id="message" rows="8" cols="25">{{ input.p.message }}</textarea>
+			</div>
+			<div style="font-size:18px">{{ LANG.ATTACHMENTS }}</div>
+            <div><input type="file" name="attachment" /></div>
+            <br /><input type="submit" name="btn2" value="{{ LANG.SUBMIT }}" />
+            <input type="hidden" name="csrfhash" value="" class="csrfhash" />
+		</form> 
+    </div>
+</div>
+
+        {% for message in ticket_messages %}
+        <div class="ticket_conversation {% if message.customer == 0 %}staff_message{% endif %}" id="msg_{{ message.id }}">
+	        <div style="display:table-row">
+                <div class="ticket_user">
+                	<div style="padding:10px;">
+                    {% if message.customer == 1 %}
+                    	{{ ticket.fullname }}
+                        <small>{{ LANG.USER }}</small>
+                    {% else %}
+                    	{{ message.name }}
+                        <small>{{ LANG.STAFF }}</small>
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="ticket_message">
+                       <div class="ticket_date">{{ LANG.POSTED_ON }}: {{ displayDate(message.date) }}
+                       	<span style="float:right" class="ticket_icon_quote" title="{{ LANG.QUOTE_THIS_POST }}" onclick="quote_post('{{ message.ticket_id }}','{{ message.id }}');"></span>
+                       </div>
+                        <div class="ticket_msg">
+                        {{ message.message|nl2br }}
+                        {% if message.attachments.total != 0 %}
+						<div style="padding-top:10px; font-size:14px;"><i><strong>{{ LANG.ATTACHMENTS }}</strong></i></div>	
+								<div><span class="ticket_icon_trash" onclick="location.href='{{ getUrl(controller,action,['view',message.ticket_id,'remove_attachment',message.attachments.id,message.id]) }}';"></span> <span class="knowledgebaseattachmenticon"></span> <a href="{{ getUrl(controller,action,['view',message.ticket_id,'attachment',message.attachments.id,message.id]) }}" target="_blank">{{ message.attachments.name }} ({{ formatBytes(message.attachments.filesize) }})</a></div>
+                        {% endif %}
+                        </div>
+                </div>
+            </div>
+            <div style="display:table-row">
+            	<div class="ticket_user">
+                	<div class="ticket_icons">
+                    <span class="ticket_icon_edit" title="{{ LANG.EDIT_THIS_POST }}" onclick="edit_post({{ message.id }});"></span>
+                    
+                    <span class="ticket_icon_trash" title="{{ LANG.REMOVE_THIS_POST }}" onclick="remove_post({{ message.id }});"></span>
+                    </div>
+                </div>
+            	<div class="ticket_message">
+                	<div class="ticket_email">{{ LANG.EMAIL }}: {{ message.email }}
+                  	{% if message.ip != '' %}<div style="float:right;">{{ LANG.IP_ADDRESS }}: {{ message.ip }}</div>{% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+       {% endfor %}
+       {{ ticketpaginator(total_pages,page,getUrl(controller,action,['view',ticket.id,'#page#'])) }}
+</div>   
+<div class="clear"></div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'site.html' %}
+{% block content %}
+{% include 'knowledgebase_searchbox.html' %}
+<div class="title">{{ LANG.SEARCH_RESULTS }}</div>
+	{% if result == 0 %}
+    	{{ LANG.SEARCH_NOT_FOUND }}
+    {% else %}
+    	{% for kb in kb %}
+        <div class="knowledgebasearticlelisttitle"><a href="{{ kb.url }}">{{ kb.title }}</a></div>
+		<div style="margin-bottom:20px;">{{ kb.content }}</div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

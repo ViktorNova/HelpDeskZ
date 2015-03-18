@@ -1,0 +1,283 @@
+<form method="post" action="{{ form_action }}">
+{% if custom_field|is_array %}
+<input type="hidden" name="do" value="edit_item" />
+<input type="hidden" name="item_id" value="{{ custom_field.id }}">
+{% else %}
+<input type="hidden" name="do" value="new_item" />
+{% endif %}
+<input type="hidden" name="do" value="{% if custom_field|is_array %}edit_item{% else %}new_item{% endif %}" />
+<div id="customfield_step1">
+{{ LANG.SELECT_CUSTOM_FIELD_TO_ADD }}:
+<table class="widget-table-form">
+	<tr>
+		<td>
+        <input type="radio" name="field_type" value="text" {% if custom_field.type == 'text' %}checked="checked"{% endif %} /> Text<br />
+        <span class="description">{{ LANG.STANDARD_TEXT_INPUT }}</span>
+        </td>
+	</tr>
+	<tr>
+		<td>
+        <input type="radio" name="field_type" value="textarea" {% if custom_field.type == 'textarea' %}checked="checked"{% endif %} /> Text area<br />
+        <span class="description">{{ LANG.MULTILINE_TEXT_INPUT }}</span>
+        </td>
+	</tr>
+	<tr>
+		<td>
+        <input type="radio" name="field_type" value="password" {% if custom_field.type == 'password' %}checked="checked"{% endif %} /> Password<br />
+        <span class="description">{{ LANG.PASSWORD_INPUT_FIELD }}</span>
+        </td>
+	</tr>
+	<tr>
+		<td>
+        <input type="radio" name="field_type" value="checkbox" {% if custom_field.type == 'checkbox' %}checked="checked"{% endif %} /> Checkbox<br />
+        <span class="description">{{ LANG.CHECKBOXES_MULTI_SELECTION }}</span>
+        </td>
+	</tr>
+	<tr>
+		<td>
+        <input type="radio" name="field_type" value="radio" {% if custom_field.type == 'radio' %}checked="checked"{% endif %} /> Radio<br />
+        <span class="description">{{ LANG.RADIO_BUTTONS_SINGLE_SELECTION }}</span>
+        </td>
+	</tr>
+	<tr>
+		<td>
+        <input type="radio" name="field_type" value="select" {% if custom_field.type == 'select' %}checked="checked"{% endif %} /> Drop-down select<br />
+        <span class="description">{{ LANG.DROPDOWN_LIST_FIELD }}</span>
+        </td>
+	</tr>
+    <tr>
+    	<td>
+        <input type="button" value="{{ LANG.NEXT }}" onclick="addCustomFieldNext();" />
+        </td>
+    </tr>
+</table>
+</div>
+<div id="customfield_text" style="display:none">
+<table class="widget-table-form">
+	<tr>
+		<td width="40%">{{ LANG.FIELD_TITLE }}<br />
+        <span class="description">{{ LANG.FIELD_TITLE_INFO }}</span>
+        </td>
+        <td><input type="text" name="text_title" value="{{ custom_field.title }}" /></td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.DEFAULT_FIELD_VALUE }}<br />
+        <span class="description">{{ LANG.DEFAULT_FIELD_VALUE_INFO }}</span>
+        </td>
+        <td><input type="text" name="text_value" value="{% if custom_field.type == 'text' %}{{ custom_field.value }}{% endif %}" /></td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.REQUIRED_FIELD }}<br />
+        <span class="description">{{ LANG.REQUIRED_FIELD_INFO }}</span>
+        </td>
+        <td><select name="text_required">
+        <option value="0" {% if custom_field.required == 0 %}selected{% endif %}>{{ LANG.NO }}</option>
+        <option value="1" {% if custom_field.required == 1 %}selected{% endif %}>{{ LANG.YES }}</option>
+        </select>
+        </td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.DISPLAY_ORDER }}<br />
+        <span class="description">{{ LANG.CUSTOM_FIELD_ORDER_INFO }}</span>
+        </td>
+        <td><input type="text" name="text_order" value="{% if custom_field|is_array %}{{ custom_field.display }}{% else %}{{ new_position }}{% endif %}" /></td>
+	</tr>
+    <tr>
+    	<td colspan="2">
+        <input type="button" value="{{ LANG.BACK }}" onclick="addCustomFieldBack('text');" />
+        <input type="submit" value="{{ LANG.SUBMIT }}" />
+        </td>
+    </tr>
+</table>
+</div>
+<div id="customfield_textarea" style="display:none">
+<table class="widget-table-form">
+	<tr>
+		<td width="40%">{{ LANG.FIELD_TITLE }}<br />
+        <span class="description">{{ LANG.FIELD_TITLE_INFO }}</span>
+        </td>
+        <td><input type="text" name="textarea_title" value="{{ custom_field.title }}" /></td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.DEFAULT_FIELD_VALUE }}<br />
+        <span class="description">{{ LANG.DEFAULT_FIELD_VALUE_INFO }}</span>
+        </td>
+        <td><textarea name="textarea_value" style="width:100%">{% if custom_field.type == 'textarea' %}{{ custom_field.value }}{% endif %}</textarea></td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.REQUIRED_FIELD }}<br />
+        <span class="description">{{ LANG.REQUIRED_FIELD_INFO }}</span>
+        </td>
+        <td><select name="textarea_required">
+        <option value="0" {% if custom_field.required == 0 %}selected{% endif %}>{{ LANG.NO }}</option>
+        <option value="1" {% if custom_field.required == 1 %}selected{% endif %}>{{ LANG.YES }}</option>
+        </select>
+        </td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.DISPLAY_ORDER }}<br />
+        <span class="description">{{ LANG.CUSTOM_FIELD_ORDER_INFO }}</span>
+        </td>
+        <td><input type="text" name="textarea_order" value="{% if custom_field|is_array %}{{ custom_field.display }}{% else %}{{ new_position }}{% endif %}" /></td>
+	</tr>
+    <tr>
+    	<td colspan="2">
+        <input type="button" value="{{ LANG.BACK }}" onclick="addCustomFieldBack('textarea');" />
+        <input type="submit" value="{{ LANG.SUBMIT }}" />
+        </td>
+    </tr>
+</table>
+</div>
+<div id="customfield_password" style="display:none">
+<table class="widget-table-form">
+	<tr>
+		<td width="40%">{{ LANG.FIELD_TITLE }}<br />
+        <span class="description">{{ LANG.FIELD_TITLE_INFO }}</span>
+        </td>
+        <td><input type="text" name="password_title" value="{{ custom_field.title }}" /></td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.DEFAULT_FIELD_VALUE }}<br />
+        <span class="description">{{ LANG.DEFAULT_FIELD_VALUE_INFO }}</span>
+        </td>
+        <td><input type="text" name="password_value" value="{% if custom_field.type == 'password' %}{{ custom_field.value }}{% endif %}" /></td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.REQUIRED_FIELD }}<br />
+        <span class="description">{{ LANG.REQUIRED_FIELD_INFO }}</span>
+        </td>
+        <td><select name="password_required">
+        <option value="0" {% if custom_field.required == 0 %}selected{% endif %}>{{ LANG.NO }}</option>
+        <option value="1" {% if custom_field.required == 1 %}selected{% endif %}>{{ LANG.YES }}</option>
+        </select>
+        </td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.DISPLAY_ORDER }}<br />
+        <span class="description">{{ LANG.CUSTOM_FIELD_ORDER_INFO }}</span>
+        </td>
+        <td><input type="text" name="password_order" value="{% if custom_field|is_array %}{{ custom_field.display }}{% else %}{{ new_position }}{% endif %}" /></td>
+	</tr>
+    <tr>
+    	<td colspan="2">
+        <input type="button" value="{{ LANG.BACK }}" onclick="addCustomFieldBack('password');" />
+        <input type="submit" value="{{ LANG.SUBMIT }}" />
+        </td>
+    </tr>
+</table>
+</div>
+<div id="customfield_checkbox" style="display:none">
+<table class="widget-table-form">
+	<tr>
+		<td width="40%">{{ LANG.FIELD_TITLE }}<br />
+        <span class="description">{{ LANG.FIELD_TITLE_INFO }}</span>
+        </td>
+        <td><input type="text" name="checkbox_title" value="{{ custom_field.title }}" /></td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.FIELD_OPTIONS }}<br />
+        <span class="description">{{ LANG.FIELD_OPTIONS_INFO }}</span>
+        </td>
+        <td><textarea name="checkbox_value" style="width:100%">{{ custom_values|raw }}</textarea></td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.REQUIRED_FIELD }}<br />
+        <span class="description">{{ LANG.REQUIRED_FIELD_INFO }}</span>
+        </td>
+        <td><select name="checkbox_required">
+        <option value="0" {% if custom_field.required == 0 %}selected{% endif %}>{{ LANG.NO }}</option>
+        <option value="1" {% if custom_field.required == 1 %}selected{% endif %}>{{ LANG.YES }}</option>
+        </select>
+        </td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.DISPLAY_ORDER }}<br />
+        <span class="description">{{ LANG.CUSTOM_FIELD_ORDER_INFO }}</span>
+        </td>
+        <td><input type="text" name="checkbox_order" value="{% if custom_field|is_array %}{{ custom_field.display }}{% else %}{{ new_position }}{% endif %}" /></td>
+	</tr>
+    <tr>
+    	<td colspan="2">
+        <input type="button" value="{{ LANG.BACK }}" onclick="addCustomFieldBack('checkbox');" />
+        <input type="submit" value="{{ LANG.SUBMIT }}" />
+        </td>
+    </tr>
+</table>
+</div>
+<div id="customfield_radio" style="display:none">
+<table class="widget-table-form">
+	<tr>
+		<td width="40%">{{ LANG.FIELD_TITLE }}<br />
+        <span class="description">{{ LANG.FIELD_TITLE_INFO }}</span>
+        </td>
+        <td><input type="text" name="radio_title" value="{{ custom_field.title }}" /></td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.FIELD_OPTIONS }}<br />
+        <span class="description">{{ LANG.FIELD_OPTIONS_RADIO_INFO }}</span>
+        </td>
+        <td><textarea name="radio_value" style="width:100%">{{ custom_values|raw }}</textarea></td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.REQUIRED_FIELD }}<br />
+        <span class="description">{{ LANG.REQUIRED_FIELD_INFO }}</span>
+        </td>
+        <td><select name="radio_required">
+        <option value="0" {% if custom_field.required == 0 %}selected{% endif %}>{{ LANG.NO }}</option>
+        <option value="1" {% if custom_field.required == 1 %}selected{% endif %}>{{ LANG.YES }}</option>
+        </select>
+        </td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.DISPLAY_ORDER }}<br />
+        <span class="description">{{ LANG.CUSTOM_FIELD_ORDER_INFO }}</span>
+        </td>
+        <td><input type="text" name="radio_order" value="{% if custom_field|is_array %}{{ custom_field.display }}{% else %}{{ new_position }}{% endif %}" /></td>
+	</tr>
+    <tr>
+    	<td colspan="2">
+        <input type="button" value="{{ LANG.BACK }}" onclick="addCustomFieldBack('radio');" />
+        <input type="submit" value="{{ LANG.SUBMIT }}" />
+        </td>
+    </tr>
+</table>
+</div>
+<div id="customfield_select" style="display:none">
+<table class="widget-table-form">
+	<tr>
+		<td width="40%">{{ LANG.FIELD_TITLE }}<br />
+        <span class="description">{{ LANG.FIELD_TITLE_INFO }}</span>
+        </td>
+        <td><input type="text" name="select_title" value="{{ custom_field.title }}" /></td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.FIELD_OPTIONS }}<br />
+        <span class="description">{{ LANG.FIELD_OPTIONS_SELECT_INFO }}</span>
+        </td>
+        <td><textarea name="select_value" style="width:100%">{{ custom_values|raw }}</textarea></td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.REQUIRED_FIELD }}<br />
+        <span class="description">{{ LANG.REQUIRED_FIELD_INFO }}</span>
+        </td>
+        <td><select name="select_required">
+        <option value="0" {% if custom_field.required == 0 %}selected{% endif %}>{{ LANG.NO }}</option>
+        <option value="1" {% if custom_field.required == 1 %}selected{% endif %}>{{ LANG.YES }}</option>
+        </select>
+        </td>
+	</tr>
+	<tr>
+		<td width="40%">{{ LANG.DISPLAY_ORDER }}<br />
+        <span class="description">{{ LANG.CUSTOM_FIELD_ORDER_INFO }}</span>
+        </td>
+        <td><input type="text" name="select_order" value="{% if custom_field|is_array %}{{ custom_field.display }}{% else %}{{ new_position }}{% endif %}" /></td>
+	</tr>
+    <tr>
+    	<td colspan="2">
+        <input type="button" value="{{ LANG.BACK }}" onclick="addCustomFieldBack('select');" />
+        <input type="submit" value="{{ LANG.SUBMIT }}" />
+        </td>
+    </tr>
+</table>
+</div>
+</form>

@@ -1,0 +1,120 @@
+<script type="text/javascript">
+$(function(){
+		$("#tree").fancytree({
+			minExpandLevel: 2,
+			activate: function(e, data){
+				var node = data.node;
+				if(node.data.href){
+					location.href=node.data.href;
+				}
+			},
+
+		});
+});
+</script>
+<SCRIPT type="text/javascript">
+	<!--
+	var setting = {
+		data: {
+			simpleData: {
+				enable: true
+			}
+		},
+		view: {
+			nameIsHTML: true
+		}
+	};
+
+	var zNodes =[{{ filter_bar|raw }}];
+	$(document).ready(function(){
+		$.fn.zTree.init($("#ticketcatlist"), setting, zNodes);
+	});
+	//-->
+</SCRIPT>
+
+<div class="search_block">
+    <div id="quicktabs">
+        <ul>
+            <li>{{ LANG.QUICK_FILTER }}</li>
+            <li>{{ LANG.SEARCH }}</li>
+        </ul>
+        <div id="quickfilter">
+            <ul id="ticketcatlist" class="ztree"></ul>
+        </div>
+        <div id="searchtab">
+            <form method="get" action="{{ getUrl(controller,'tickets',null,'#searchtab') }}">
+                <input type="hidden" name="do" value="search" />
+                <table width="100%" class="widget-table-form">
+                    <tr>
+                        <td>{{ LANG.SEARCH_IN }}:</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+	                <select name="criteria">
+                    <option value="code" {% if input.g.criteria == 'code' %}selected{% endif %}>{{ LANG.TICKET_ID }}</option>
+                    <option value="subject" {% if input.g.criteria == 'subject' %}selected{% endif %}>{{ LANG.SUBJECT }}</option>
+                    <option value="email" {% if input.g.criteria == 'email' %}selected{% endif %}>{{ LANG.EMAIL }}</option>
+                    <option value="name" {% if input.g.criteria == 'name' %}selected{% endif %}>{{ LANG.NAME }}</option>
+                    </select>
+                        </td>
+                        <td>
+                            <input type="text" name="criteria_value" style="width:100%" value="{{ input.g.criteria_value }}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">{{ LANG.STATUS }}:</td>
+                        <td><select name="status">
+                        <option value="">{{ LANG.ANY_STATUS }}</option>
+                        {% for id, name in ticket_status %}
+                        {% if input.g.status == id %}
+                        <option value="{{ id }}" selected>{{ name }}</option>
+                        {% else %}
+                        <option value="{{ id }}">{{ name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td align="right">{{ LANG.DEPARTMENT }}:</td>
+                        <td><select name="department_id">
+                            <option value=""></option>
+                            {% for id, name in departments %}
+                            {% if input.g.department_id == id %}
+                            <option value="{{ id }}" selected>{{ name }}</option>
+                            {% else %}
+                            <option value="{{ id }}">{{ name }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select></td>
+                      </tr>
+                      <tr>
+                        <td align="right">{{ LANG.PRIORITY }}:</td>
+                        <td><select name="priority_id">
+                            <option value=""></option>
+                            {% for key in priority %}
+                            {% if input.g.priority_id == key.id %}
+                            <option value="{{ key.id }}" selected>{{ key.name }}</option>
+                            {% else %}
+                            <option value="{{ key.id }}">{{ key.name }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td align="right">{{ LANG.FROM }}:</td>
+                        <td><input type="text" name="date_from" id="date_from" value="{{ input.g.date_from }}" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">{{ LANG.TO }}:</td>
+                        <td><input type="text" name="date_to" id="date_to" value="{{ input.g.date_to }}" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center"><input type="submit" name="btn" value="{{ LANG.SEARCH }}" /></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>   
+</div>
