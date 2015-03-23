@@ -1,6 +1,3 @@
-php_flag  log_errors on
-php_value error_log  PHP_errors.log
-
 # Turn on URL rewriting
 RewriteEngine On
 
@@ -15,7 +12,7 @@ RewriteCond {REQUEST_URI} !^/help/index.php
 </Files>
 
 # Protect application and system files from being viewed
-RewriteRule ^(?:controllers|core|system)\b.* index.php/$0 [L]
+RewriteRule ^(?:controllers|includes|uploads|views)\b.* index.php/$0 [L]
 
 # Allow any files or directories that exist to be displayed directly
 RewriteCond %{REQUEST_FILENAME} !-f
