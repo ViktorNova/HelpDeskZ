@@ -24,7 +24,7 @@ Corresponding URL: http://www.site.com/support
 - Upload all HelpDeskZ files to your server.
 - Open **/install** in your browser, for example (modify to your URL):<br />
 http://www.site.com/support/install
-- The HelpDeskZ setup script will run. Click <strong>INSTALL HESK</strong> and follow instructions through License agreement, Check Setup and Database settings.
+- The HelpDeskZ setup script will run. Click <strong>INSTALL HELPDESKZ</strong> and follow instructions through License agreement, Check Setup and Database settings.
 - Before closing the install script **DELETE the "install" directory from your server!**
 - Now it's time to setup your help desk! Open the <strong>admin</strong> folder in your browser, for example:<br />
 http://www.site.com/support/admin/<br />
