@@ -4,9 +4,9 @@
 <script>
 	var csrfhash = '{{ getToken('ticket') }}'; 
 	var cannedmsg = {{ canned_encoded|raw }};
-	var _msgURL = '{{ getUrl(controller, action, ['view', ticket.id,'GetMsg','']) }}';
-	var _kbURL = '{{ getUrl(controller, action, ['view', ticket.id,'getKB','']) }}';
-	var _delmsgURL = '{{ getUrl(controller, action, ['view', ticket.id,'RemoveMsg','']) }}';
+	var _msgURL = '{{ getUrl(controller, action, ['view', ticket.id,'GetMsg',''])|raw }}';
+	var _kbURL = '{{ getUrl(controller, action, ['view', ticket.id,'getKB',''])|raw }}';
+	var _delmsgURL = '{{ getUrl(controller, action, ['view', ticket.id,'RemoveMsg',''])|raw }}';
 	function addCannedResponse(msgid){
 		if(msgid != ''){
 			myMsg = cannedmsg[msgid]['message'];
@@ -42,7 +42,7 @@
                 <div>{{ ticket.subject }}</div>
                 <small>{{ LANG.CREATED }}: {{ displayDate(ticket.date) }} &nbsp; &nbsp; &nbsp; {{ LANG.UPDATED }}: {{ displayDate(ticket.last_update) }}</small>
             </div>
-            <form method="post" action="{{ getUrl(controller, action, ['view',ticket.id,'update']) }}">
+            <form method="post" action="{{ getUrl(controller, action, ['view',ticket.id,'update'])|raw }}">
             <div class="ticket_details">
                 <div class="ticket_details_block">
                     <div class="b_title">{{ LANG.TICKET_ID }}</div>
@@ -120,7 +120,7 @@
 	</div>
     <div id="ctab2">
   
-        <form method="post" action="{{ getUrl(controller, action, ['view',ticket.id,'reply']) }}" name="reply" id="reply" enctype="multipart/form-data">
+        <form method="post" action="{{ getUrl(controller, action, ['view',ticket.id,'reply'])|raw }}" name="reply" id="reply" enctype="multipart/form-data">
         <table class="widget-table-form">
         	<tr>
             	<td width="150">{{ LANG.FROM }}</td>
@@ -179,7 +179,7 @@
                         {{ message.message|nl2br }}
                         {% if message.attachments.total != 0 %}
 						<div style="padding-top:10px; font-size:14px;"><i><strong>{{ LANG.ATTACHMENTS }}</strong></i></div>	
-								<div><span class="ticket_icon_trash" onclick="location.href='{{ getUrl(controller,action,['view',message.ticket_id,'remove_attachment',message.attachments.id,message.id]) }}';"></span> <span class="knowledgebaseattachmenticon"></span> <a href="{{ getUrl(controller,action,['view',message.ticket_id,'attachment',message.attachments.id,message.id]) }}" target="_blank">{{ message.attachments.name }} ({{ formatBytes(message.attachments.filesize) }})</a></div>
+								<div><span class="ticket_icon_trash" onclick="location.href='{{ getUrl(controller,action,['view',message.ticket_id,'remove_attachment',message.attachments.id,message.id])|raw }}';"></span> <span class="knowledgebaseattachmenticon"></span> <a href="{{ getUrl(controller,action,['view',message.ticket_id,'attachment',message.attachments.id,message.id])|raw }}" target="_blank">{{ message.attachments.name }} ({{ formatBytes(message.attachments.filesize) }})</a></div>
                         {% endif %}
                         </div>
                 </div>

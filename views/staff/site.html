@@ -29,7 +29,7 @@ var _baseURL = '{{ getUrl(controller) }}';
 <div id="wrapper">
     <div id="header">
 		<div id="logo">
-			<a href="{{ getUrl(controller) }}"></a>
+			<a href="{{ getUrl(controller)|raw }}"></a>
         </div>
         <div id="navbar">
         	<div {% if action == 'dashboard' or action == 'preferences' or action == 'index' %} class="current"{% endif %}>
@@ -56,45 +56,45 @@ var _baseURL = '{{ getUrl(controller) }}';
         <div class="clear"></div>
         <div id="submenu">
         	<ul {% if action != 'dashboard' and action != 'preferences' and action != 'index' %}style="display:none;"{% endif %} id="sm1">
-            	<li><a href="{{ getUrl(controller,'dashboard') }}" {% if (action == 'dashboard' or action == 'index') and params.0 == '' %}class="current"{% endif %}>{{ LANG.DASHBOARD }}</a></li>
-            	<li><a href="{{ getUrl(controller,'preferences') }}" {% if action == 'preferences' %}class="current"{% endif %}>{{ LANG.MY_PREFERENCES }}</a></li>
+            	<li><a href="{{ getUrl(controller,'dashboard')|raw }}" {% if (action == 'dashboard' or action == 'index') and params.0 == '' %}class="current"{% endif %}>{{ LANG.DASHBOARD }}</a></li>
+            	<li><a href="{{ getUrl(controller,'preferences')|raw }}" {% if action == 'preferences' %}class="current"{% endif %}>{{ LANG.MY_PREFERENCES }}</a></li>
             </ul>
         	<ul {% if action != 'tickets' %}style="display:none;"{% endif %} id="sm2">
-            	<li><a href="{{ getUrl(controller,'tickets') }}" {% if action == 'tickets' and params.0 != 'canned' and (input.g['do'] != 'search' or input.g['status'] == '') %}class="current"{% endif %}>{{ LANG.MANAGE_TICKETS }}</a></li>
-            	<li><a href="{{ getUrl(controller,'tickets',null,'do=search&status=1') }}" {% if action == 'tickets' and input.g['do'] == 'search' and input.g['status'] == '1' %}class="current"{% endif %}>{{ LANG.OPEN }}</a></li>
-            	<li><a href="{{ getUrl(controller,'tickets',null,'do=search&status=3') }}" {% if action == 'tickets'and input.g['do'] == 'search' and input.g['status'] == '3' %}class="current"{% endif %}>{{ LANG.AWAITING_REPLY }}</a></li>
-				<li><a href="{{ getUrl(controller,'tickets',null,'do=search&status=4') }}" {% if action == 'tickets' and input.g['do'] == 'search' and input.g['status'] == '4' %}class="current"{% endif %}>{{ LANG.IN_PROGRESS }}</a></li>
-				<li><a href="{{ getUrl(controller,'tickets',null,'do=search&status=2') }}" {% if action == 'tickets' and input.g['do'] == 'search' and input.g['status'] == '2' %}class="current"{% endif %}>{{ LANG.ANSWERED }}</a></li>
-				<li><a href="{{ getUrl(controller,'tickets',null,'do=search&status=5') }}" {% if action == 'tickets' and input.g['do'] == 'search' and input.g['status'] == '5' %}class="current"{% endif %}>{{ LANG.CLOSED }}</a></li>
-            	<li><a href="{{ getUrl(controller,'tickets','canned') }}" {% if params.0 == 'canned' %}class="current" {% endif %}>{{ LANG.CANNED_RESPONSE }}</a></li>
+            	<li><a href="{{ getUrl(controller,'tickets')|raw }}" {% if action == 'tickets' and params.0 != 'canned' and (input.g['do'] != 'search' or input.g['status'] == '') %}class="current"{% endif %}>{{ LANG.MANAGE_TICKETS }}</a></li>
+            	<li><a href="{{ getUrl(controller,'tickets',null,'do=search&status=1')|raw }}" {% if action == 'tickets' and input.g['do'] == 'search' and input.g['status'] == '1' %}class="current"{% endif %}>{{ LANG.OPEN }}</a></li>
+            	<li><a href="{{ getUrl(controller,'tickets',null,'do=search&status=3')|raw }}" {% if action == 'tickets'and input.g['do'] == 'search' and input.g['status'] == '3' %}class="current"{% endif %}>{{ LANG.AWAITING_REPLY }}</a></li>
+				<li><a href="{{ getUrl(controller,'tickets',null,'do=search&status=4')|raw }}" {% if action == 'tickets' and input.g['do'] == 'search' and input.g['status'] == '4' %}class="current"{% endif %}>{{ LANG.IN_PROGRESS }}</a></li>
+				<li><a href="{{ getUrl(controller,'tickets',null,'do=search&status=2')|raw }}" {% if action == 'tickets' and input.g['do'] == 'search' and input.g['status'] == '2' %}class="current"{% endif %}>{{ LANG.ANSWERED }}</a></li>
+				<li><a href="{{ getUrl(controller,'tickets',null,'do=search&status=5')|raw }}" {% if action == 'tickets' and input.g['do'] == 'search' and input.g['status'] == '5' %}class="current"{% endif %}>{{ LANG.CLOSED }}</a></li>
+            	<li><a href="{{ getUrl(controller,'tickets','canned')|raw }}" {% if params.0 == 'canned' %}class="current" {% endif %}>{{ LANG.CANNED_RESPONSE }}</a></li>
             </ul>
         	<ul {% if action != 'knowledgebase' %}style="display:none;"{% endif %} id="sm3">
-            	<li><a href="{{ getUrl(controller,'knowledgebase','preview') }}" {% if action == 'knowledgebase' and params.0 == 'preview' %}class="current"{% endif %}>{{ LANG.VIEW_KNOWLEDGEBASE }}</a></li>
-            	<li><a href="{{ getUrl(controller,'knowledgebase','manage') }}" {% if action == 'knowledgebase' and params.0 == 'manage' %}class="current"{% endif %}>{{ LANG.MANAGE_KNOWLEDGEBASE }}</a></li>
-            	<li><a href="{{ getUrl(controller,'knowledgebase','categories') }}" {% if action == 'knowledgebase' and params.0 == 'categories' %}class="current"{% endif %}>{{ LANG.CATEGORIES }}</a></li>
-            	<li><a href="{{ getUrl(controller,'knowledgebase','article') }}" {% if action == 'knowledgebase' and params.0 == 'article' %}class="current"{% endif %}>{{ LANG.NEW_ARTICLE }}</a></li>
+            	<li><a href="{{ getUrl(controller,'knowledgebase','preview')|raw }}" {% if action == 'knowledgebase' and params.0 == 'preview' %}class="current"{% endif %}>{{ LANG.VIEW_KNOWLEDGEBASE }}</a></li>
+            	<li><a href="{{ getUrl(controller,'knowledgebase','manage')|raw }}" {% if action == 'knowledgebase' and params.0 == 'manage' %}class="current"{% endif %}>{{ LANG.MANAGE_KNOWLEDGEBASE }}</a></li>
+            	<li><a href="{{ getUrl(controller,'knowledgebase','categories')|raw }}" {% if action == 'knowledgebase' and params.0 == 'categories' %}class="current"{% endif %}>{{ LANG.CATEGORIES }}</a></li>
+            	<li><a href="{{ getUrl(controller,'knowledgebase','article')|raw }}" {% if action == 'knowledgebase' and params.0 == 'article' %}class="current"{% endif %}>{{ LANG.NEW_ARTICLE }}</a></li>
             </ul>
             
         	<ul {% if action != 'news' %}style="display:none;"{% endif %} id="sm4">
-            	<li><a href="{{ getUrl(controller,'news','view') }}" {% if action == 'news' and params.0 == 'view' %}class="current"{% endif %}>{{ LANG.VIEW_NEWS }}</a></li>
-            	<li><a href="{{ getUrl(controller,'news','manage') }}" {% if action == 'news' and params.0 == 'manage' %}class="current"{% endif %}>{{ LANG.MANAGE_NEWS }}</a></li>
-            	<li><a href="{{ getUrl(controller,'news','insert') }}" {% if action == 'news' and params.0 == 'insert' %}class="current"{% endif %}>{{ LANG.INSERT_NEWS }}</a></li>
+            	<li><a href="{{ getUrl(controller,'news','view')|raw }}" {% if action == 'news' and params.0 == 'view' %}class="current"{% endif %}>{{ LANG.VIEW_NEWS }}</a></li>
+            	<li><a href="{{ getUrl(controller,'news','manage')|raw }}" {% if action == 'news' and params.0 == 'manage' %}class="current"{% endif %}>{{ LANG.MANAGE_NEWS }}</a></li>
+            	<li><a href="{{ getUrl(controller,'news','insert')|raw }}" {% if action == 'news' and params.0 == 'insert' %}class="current"{% endif %}>{{ LANG.INSERT_NEWS }}</a></li>
             </ul>
         	<ul {% if action != 'users' %}style="display:none;"{% endif %} id="sm5">
-            	<li><a href="{{ getUrl(controller,'users','manage') }}" {% if action == 'users' and params.0 == 'manage' %}class="current"{% endif %}>{{ LANG.MANAGE_USERS }}</a></li>
+            	<li><a href="{{ getUrl(controller,'users','manage')|raw }}" {% if action == 'users' and params.0 == 'manage' %}class="current"{% endif %}>{{ LANG.MANAGE_USERS }}</a></li>
             </ul>
             {% if staff.admin == 1 %}
         	<ul {% if action != 'settings' %}style="display:none;"{% endif %} id="sm6">
-            	<li><a href="{{ getUrl(controller,'settings', 'general') }}" {% if action == 'settings' and params.0 == 'general' %}class="current"{% endif %}>{{ LANG.GENERAL }}</a></li>
-            	<li><a href="{{ getUrl(controller,'settings', 'tickets') }}" {% if action == 'settings' and params.0 == 'tickets' %}class="current"{% endif %}>{{ LANG.TICKETS }}</a></li>
-            	<li><a href="{{ getUrl(controller,'settings', 'email_template') }}" {% if action == 'settings' and params.0 == 'email_template' %}class="current"{% endif %}>{{ LANG.EMAIL_TEMPLATE }}</a></li>
-            	<li><a href="{{ getUrl(controller,'settings', 'departments') }}" {% if action == 'settings' and params.0 == 'departments' %}class="current"{% endif %}>{{ LANG.DEPARTMENTS }}</a></li>
-            	<li><a href="{{ getUrl(controller,'settings', 'staff') }}" {% if action == 'settings' and params.0 == 'staff' %}class="current"{% endif %}>{{ LANG.STAFF }}</a></li>
+            	<li><a href="{{ getUrl(controller,'settings', 'general')|raw }}" {% if action == 'settings' and params.0 == 'general' %}class="current"{% endif %}>{{ LANG.GENERAL }}</a></li>
+            	<li><a href="{{ getUrl(controller,'settings', 'tickets')|raw }}" {% if action == 'settings' and params.0 == 'tickets' %}class="current"{% endif %}>{{ LANG.TICKETS }}</a></li>
+            	<li><a href="{{ getUrl(controller,'settings', 'email_template')|raw }}" {% if action == 'settings' and params.0 == 'email_template' %}class="current"{% endif %}>{{ LANG.EMAIL_TEMPLATE }}</a></li>
+            	<li><a href="{{ getUrl(controller,'settings', 'departments')|raw }}" {% if action == 'settings' and params.0 == 'departments' %}class="current"{% endif %}>{{ LANG.DEPARTMENTS }}</a></li>
+            	<li><a href="{{ getUrl(controller,'settings', 'staff')|raw }}" {% if action == 'settings' and params.0 == 'staff' %}class="current"{% endif %}>{{ LANG.STAFF }}</a></li>
             </ul>
             {% endif %}
             
             
-            <div class="logout"><a href="{{ getUrl(controller,'logout') }}">{{ LANG.LOGOUT }}: {{ staff.username }}</a></div>
+            <div class="logout"><a href="{{ getUrl(controller,'logout')|raw }}">{{ LANG.LOGOUT }}: {{ staff.username }}</a></div>
             <div class="clear"></div>
         </div>
     </div>

@@ -38,7 +38,7 @@ toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizes
         	<li>{{ LANG.EDIT_NEWS }}</li>
         </ul>
         <div>
-        	<form method="post" action="{{ getUrl(controller,action,['manage','edit',news_id,'update']) }}">
+        	<form method="post" action="{{ getUrl(controller,action,['manage','edit',news_id,'update'])|raw }}">
             <input type="hidden" name="csrfhash" value="{{ getToken('news') }}" />
             <table  class="widget-table-form">
                 <tr>

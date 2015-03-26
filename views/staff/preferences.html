@@ -18,7 +18,7 @@
         <li id="tab2">{{ LANG.CHANGE_PASSWORD }}</li>
     </ul>
 	<div id="ctab1">
-    	<form method="post" action="{{ getUrl(controller,action,'update_profile') }}">
+    	<form method="post" action="{{ getUrl(controller,action,'update_profile')|raw }}">
         <input type="hidden" name="csrfhash" class="csrfhash" />
     	<table class="widget-table-form">
         	<tr>
@@ -70,7 +70,7 @@
         </form>
     </div>
     <div id="ctab2">
-    	<form method="post" action="{{ getUrl(controller,action,'update_password#ctab2') }}">
+    	<form method="post" action="{{ getUrl(controller,action,'update_password#ctab2')|raw }}">
         <input type="hidden" name="csrfhash" class="csrfhash" />
     	<table class="widget-table-form">
         	<tr>

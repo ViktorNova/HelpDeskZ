@@ -4,13 +4,13 @@
 {% if error_msg != '' %}{{ error_message(error_msg) }}{% endif %}
 <script>
 	var csrfhash = '{{ getToken('users') }}'; 
-	var _usersURL = '{{ getUrl(controller, action, ['manage','GetUsersForm','']) }}';
+	var _usersURL = '{{ getUrl(controller, action, ['manage','GetUsersForm',''])|raw }}';
 	$(document).ready(function(){
 		$(".csrfhash").val(csrfhash);
 	});
 </script>
 <input type="button" name="d" value="{{ LANG.ADD_NEW_USER }}" onclick="showUserForm(0);" /><br /><br />
-<form method="post" action="{{ getUrl(controller,action,['manage','page',page,orderby,sortby],getvar) }}">
+<form method="post" action="{{ getUrl(controller,action,['manage','page',page,orderby,sortby],getvar)|raw }}">
 <input type="hidden" name="do" value="update" />
 <input type="hidden" name="csrfhash" class="csrfhash" />
 {{ ticketpaginator(total_pages,page,getUrl(controller,action,['manage','page','#page#',orderby,sortby])) }}
@@ -18,9 +18,9 @@
     <thead class="titles">
         <tr>
         	<th><input type="checkbox" id="selectall" /></th>
-            <th {% if params.3 == 'fullname' %}class="active"{% endif %}  width="250"><a href="{{ getUrl(controller,action,['manage','page',page,'fullname',(params.4=='desc'?'asc':'desc')],getvar) }}">{{ LANG.FULL_NAME }}</a></th>
-            <th {% if params.3 == 'email' %}class="active"{% endif %}  width="240"><a href="{{ getUrl(controller,action,['manage','page',page,'email',(params.4=='desc'?'asc':'desc')],getvar) }}">{{ LANG.EMAIL }}</a></th>
-            <th {% if params.3 == 'status' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['manage','page',page,'status',(params.4=='desc'?'asc':'desc')],getvar) }}">{{ LANG.STATUS }}</a></th>
+            <th {% if params.3 == 'fullname' %}class="active"{% endif %}  width="250"><a href="{{ getUrl(controller,action,['manage','page',page,'fullname',(params.4=='desc'?'asc':'desc')],getvar)|raw }}">{{ LANG.FULL_NAME }}</a></th>
+            <th {% if params.3 == 'email' %}class="active"{% endif %}  width="240"><a href="{{ getUrl(controller,action,['manage','page',page,'email',(params.4=='desc'?'asc':'desc')],getvar)|raw }}">{{ LANG.EMAIL }}</a></th>
+            <th {% if params.3 == 'status' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['manage','page',page,'status',(params.4=='desc'?'asc':'desc')],getvar)|raw }}">{{ LANG.STATUS }}</a></th>
             <th>&nbsp;</th>
         </tr>
     </thead>

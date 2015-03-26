@@ -2,7 +2,7 @@
 {% block title %}{{ LANG.CATEGORIES }}{% endblock %}
 {% block content %}
 <script>
-	var _kbURL = '{{ getUrl(controller, action, ['categories','GetKBCategoryForm','']) }}';
+	var _kbURL = '{{ getUrl(controller, action, ['categories','GetKBCategoryForm',''])|raw }}';
 	$(function(){
 		$("#categoryList").fancytree({
 			minExpandLevel: 2,

@@ -12,8 +12,8 @@
 {% endif %}
 <script type="text/javascript">
 	var csrfhash = '{{ getToken('ticket_settings') }}'; 
-	var _fileTypeUrl = '{{ getUrl(controller,action,['tickets','getFileTypeForm','']) }}';
-	var _customFieldUrl = '{{ getUrl(controller,action,['tickets','getCustomFieldForm','']) }}';
+	var _fileTypeUrl = '{{ getUrl(controller,action,['tickets','getFileTypeForm',''])|raw }}';
+	var _customFieldUrl = '{{ getUrl(controller,action,['tickets','getCustomFieldForm',''])|raw }}';
 	$(function(){
 		$(".csrfhash").val(csrfhash);
 	});
@@ -25,7 +25,7 @@
         <li id="tab3">{{ LANG.CUSTOM_FIELDS }}</li>
     </ul>
     <div id="ctab1">
-    	<form method="post" action="{{ getUrl(controller,action,['tickets','update_general#ctab1']) }}">
+    	<form method="post" action="{{ getUrl(controller,action,['tickets','update_general#ctab1'])|raw }}">
         <input type="hidden" name="csrfhash" class="csrfhash" />
     	<table class="widget-table-form">
             <tr>
@@ -99,7 +99,7 @@
         </form>
     </div>
     <div id="ctab2">
-    	<form method="post" action="{{ getUrl(controller,action,['tickets','delete_filetype#ctab2']) }}">
+    	<form method="post" action="{{ getUrl(controller,action,['tickets','delete_filetype#ctab2'])|raw }}">
         <input type="hidden" name="csrfhash" class="csrfhash" />
         	<input type="button" name="btn" value="{{ LANG.ADD_NEW_FILE_TYPE }}" onclick="showFileTypeForm(0);" /> 
 <br />
@@ -108,8 +108,8 @@
 		    <thead class="titles">
             <tr>
                 <th width="26"><input type="checkbox" id="selectall" /></th>
-                <th {% if params.1 == 'type' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['tickets','type',(params.2=='desc'?'asc':'desc')~'#ctab2']) }}">{{ LANG.FILE_EXTENSION }}</a></th>
-                <th {% if params.1 == 'size' %}class="active"{% endif %} width="200"><a href="{{ getUrl(controller,action,['tickets','size',(params.2=='desc'?'asc':'desc')~'#ctab2']) }}">{{ LANG.MAXIMUM_SIZE }}</a></th>
+                <th {% if params.1 == 'type' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['tickets','type',(params.2=='desc'?'asc':'desc')~'#ctab2'])|raw }}">{{ LANG.FILE_EXTENSION }}</a></th>
+                <th {% if params.1 == 'size' %}class="active"{% endif %} width="200"><a href="{{ getUrl(controller,action,['tickets','size',(params.2=='desc'?'asc':'desc')~'#ctab2'])|raw }}">{{ LANG.MAXIMUM_SIZE }}</a></th>
             </tr>
             </thead>
             {% for r in file_types %}
@@ -168,9 +168,9 @@
                 <td><a href="javascript:void(0);" onclick="showCustomFieldForm({{ r.id }});">{{ r.title }}</a></td>
                 <td>{{ r.type|capitalize }}</td>
                 <td align="left">
-  		        {% if r.display != 1 %}<a href="{{ getUrl(controller, action, ['tickets','move_customfield','up',r.id]) }}"><img src="{{ getUrl('') }}/images/cp/up.png" /></a>{% endif %}
-                {% if r.display != last_position %}<a href="{{ getUrl(controller, action, ['tickets','move_customfield','down',r.id]) }}"><img src="{{ getUrl('') }}/images/cp/down.png" /></a>{% endif %}
-                 <a href="{{ getUrl(controller, action, ['tickets','delete_customfield',r.id]) }}" onclick="if(!confirm('{{ LANG.CONFIRM_REMOVE }}')){return false } "><img src="{{ getUrl('') }}/images/cp/crossout.png" /></a>
+  		        {% if r.display != 1 %}<a href="{{ getUrl(controller, action, ['tickets','move_customfield','up',r.id])|raw }}"><img src="{{ getUrl('') }}/images/cp/up.png" /></a>{% endif %}
+                {% if r.display != last_position %}<a href="{{ getUrl(controller, action, ['tickets','move_customfield','down',r.id])|raw }}"><img src="{{ getUrl('') }}/images/cp/down.png" /></a>{% endif %}
+                 <a href="{{ getUrl(controller, action, ['tickets','delete_customfield',r.id])|raw }}" onclick="if(!confirm('{{ LANG.CONFIRM_REMOVE }}')){return false } "><img src="{{ getUrl('') }}/images/cp/crossout.png" /></a>
                 </td>
             </tr>
 			{% endfor %}

@@ -26,11 +26,11 @@
     <h2>{{ LANG.TICKET_SUMMARY }}</h2>
     <div class="ticket_summary">
         <ul>
-            <li><div onclick="location.href='{{ getUrl(controller,'tickets',null,'do=search&status=1') }}';">{{ LANG.OPEN }}<span>{{ tickets_summary.open }}</span></div></li>
-            <li><div onclick="location.href='{{ getUrl(controller,'tickets',null,'do=search&status=3') }}';">{{ LANG.AWAITING_REPLY }}<span>{{ tickets_summary.awaiting_reply }}</span></div></li>
-            <li><div onclick="location.href='{{ getUrl(controller,'tickets',null,'do=search&status=4') }}';">{{ LANG.IN_PROGRESS }}<span>{{ tickets_summary.in_progress }}</span></div></li>
-            <li><div onclick="location.href='{{ getUrl(controller,'tickets',null,'do=search&status=2') }}';">{{ LANG.ANSWERED }}<span>{{ tickets_summary.answered }}</span></div></li>
-            <li><div onclick="location.href='{{ getUrl(controller,'tickets',null,'do=search&status=5') }}';">{{ LANG.CLOSED }}<span>{{ tickets_summary.closed }}</span></div></li>
+            <li><div onclick="location.href='{{ getUrl(controller,'tickets',null,'do=search&status=1')|raw }}';">{{ LANG.OPEN }}<span>{{ tickets_summary.open }}</span></div></li>
+            <li><div onclick="location.href='{{ getUrl(controller,'tickets',null,'do=search&status=3')|raw }}';">{{ LANG.AWAITING_REPLY }}<span>{{ tickets_summary.awaiting_reply }}</span></div></li>
+            <li><div onclick="location.href='{{ getUrl(controller,'tickets',null,'do=search&status=4')|raw }}';">{{ LANG.IN_PROGRESS }}<span>{{ tickets_summary.in_progress }}</span></div></li>
+            <li><div onclick="location.href='{{ getUrl(controller,'tickets',null,'do=search&status=2')|raw }}';">{{ LANG.ANSWERED }}<span>{{ tickets_summary.answered }}</span></div></li>
+            <li><div onclick="location.href='{{ getUrl(controller,'tickets',null,'do=search&status=5')|raw }}';">{{ LANG.CLOSED }}<span>{{ tickets_summary.closed }}</span></div></li>
         </ul>
         <div class="clear"></div>
     </div>
@@ -55,7 +55,7 @@
             </table>
             {% for news in lastestnews %}
             {% set n = {0: 'view', 1: news.id} %}
-            <div class="newstitle"><a href="{{ getUrl(controller,'news',n) }}">{{ news.title }}</a></div>
+            <div class="newstitle"><a href="{{ getUrl(controller,'news',n)|raw }}">{{ news.title }}</a></div>
             <div class="newsdescription">{{ LANG.POSTED_BY_ON|replace({'%author%':news.author, '%date%':displayDate(news.date)}) }}</div>
             <div class="newscontent">{{ news.content|raw }}</div>
             {% endfor %}

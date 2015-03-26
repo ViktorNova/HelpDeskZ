@@ -1,4 +1,4 @@
-<form method="post" action="{{ getUrl(controller,action,['view',message.ticket_id,'editMsg']) }}">
+<form method="post" action="{{ getUrl(controller,action,['view',message.ticket_id,'editMsg'])|raw }}">
 <textarea style="width:100%; height:230px;" id="editarea" name="message">{{ message.message }}</textarea>
 <input type="hidden" name="msgid" value="{{ message.id }}" />
 <input type="submit" name="btn" value="{{ LANG.UPDATE }}" />

@@ -42,7 +42,7 @@ $(function(){
             <ul id="ticketcatlist" class="ztree"></ul>
         </div>
         <div id="searchtab">
-            <form method="get" action="{{ getUrl(controller,'tickets',null,'#searchtab') }}">
+            <form method="get" action="{{ getUrl(controller,'tickets',null,'#searchtab')|raw }}">
                 <input type="hidden" name="do" value="search" />
                 <table width="100%" class="widget-table-form">
                     <tr>

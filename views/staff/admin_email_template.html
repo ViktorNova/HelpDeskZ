@@ -5,7 +5,7 @@
 {% if params.1 == 'template_updated' %}{{ success_message(LANG.EMAIL_TEMPLATE_UPDATED) }}
 {% endif %}
 <script type="text/javascript">
-	var _emailtemplateURL = '{{ getUrl(controller,action,['email_template','getTemplateForm','']) }}';
+	var _emailtemplateURL = '{{ getUrl(controller,action,['email_template','getTemplateForm',''])|raw }}';
 	function showEmailTemplate(_templateID){
 		init_loader();
 		$("#container_dialog").dialog('option', 'title', 'Edit email template');
@@ -24,7 +24,7 @@
     	<table width="100%"  class="widget-table">
 		    <thead class="titles">
             <tr>
-                <th {% if params.1 == 'name' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['departments','name',(params.2=='desc'?'asc':'desc')]) }}">{{ LANG.NAME }}</a></th>
+                <th {% if params.1 == 'name' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['departments','name',(params.2=='desc'?'asc':'desc')])|raw }}">{{ LANG.NAME }}</a></th>
             </tr>
             </thead>
             {% if emails|is_array %}

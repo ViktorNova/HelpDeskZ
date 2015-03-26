@@ -9,7 +9,7 @@
         	<li>{{ LANG.VIEW_KNOWLEDGEBASE }}</li>
         </ul>
         <div>
-<input type="button" onclick="location.href='{{ getUrl(controller,action,['manage','edit',article.id]) }}';" value="{{ LANG.EDIT_ARTICLE }}" /><br />
+<input type="button" onclick="location.href='{{ getUrl(controller,action,['manage','edit',article.id])|raw }}';" value="{{ LANG.EDIT_ARTICLE }}" /><br />
 <br />
 
         	<div class="knowledgebasearticletitle">{{ article.title }}</div>

@@ -12,7 +12,7 @@
 {% include 'filter_bar.html' %}
 <div style="margin-left:260px;">
 
-<form method="post" action="{{ getUrl(controller,action,['page',page,orderby,sortby],getvar) }}">
+<form method="post" action="{{ getUrl(controller,action,['page',page,orderby,sortby],getvar)|raw }}">
 <input type="hidden" name="do" value="update" />
 <input type="hidden" name="csrfhash" class="csrfhash" />
 {{ ticketpaginator(total_pages,page,getUrl(controller,action,['page','#page#',orderby,sortby], getvar)) }}
@@ -21,21 +21,21 @@
     <thead class="titles">
         <tr>
         	<th><input type="checkbox" id="selectall" /></th>
-            <th {% if params.2 == 'code' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'code',(params.3 =='desc'?'asc':'desc')],getvar) }}">{{ LANG.TICKET_ID }}</a></th>
-            <th {% if params.2 == 'subject' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'subject',(params.3=='desc'?'asc':'desc')],getvar) }}">{{ LANG.SUBJECT }}</a></th>
-            <th {% if params.2 == 'last_replier' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'last_replier',(params.3=='desc'?'asc':'desc')],getvar) }}">{{ LANG.LAST_REPLIER }}</a></th>
-            <th {% if params.2 == 'replies' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'replies',(params.3=='desc'?'asc':'desc')],getvar) }}">{{ LANG.REPLIES }}</a></th>
-            <th {% if params.2 == 'priority_id' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'priority_id',(params.3=='desc'?'asc':'desc')],getvar) }}">{{ LANG.PRIORITY }}</a></th>
-            <th {% if params.2 == 'last_update' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'last_update',(params.3=='desc'?'asc':'desc')],getvar) }}">{{ LANG.LAST_ACTIVITY }}</a></th>
-            <th {% if params.2 == 'department_id' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'department_id',(params.3=='desc'?'asc':'desc')],getvar) }}">{{ LANG.DEPARTMENT }}</a></th>
-            <th {% if params.2 == 'status' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'status',(params.3=='desc'?'asc':'desc')],getvar) }}">{{ LANG.STATUS }}</a></th>
+            <th {% if params.2 == 'code' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'code',(params.3 =='desc'?'asc':'desc')],getvar)|raw }}">{{ LANG.TICKET_ID }}</a></th>
+            <th {% if params.2 == 'subject' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'subject',(params.3=='desc'?'asc':'desc')],getvar)|raw }}">{{ LANG.SUBJECT }}</a></th>
+            <th {% if params.2 == 'last_replier' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'last_replier',(params.3=='desc'?'asc':'desc')],getvar)|raw }}">{{ LANG.LAST_REPLIER }}</a></th>
+            <th {% if params.2 == 'replies' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'replies',(params.3=='desc'?'asc':'desc')],getvar)|raw }}">{{ LANG.REPLIES }}</a></th>
+            <th {% if params.2 == 'priority_id' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'priority_id',(params.3=='desc'?'asc':'desc')],getvar)|raw }}">{{ LANG.PRIORITY }}</a></th>
+            <th {% if params.2 == 'last_update' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'last_update',(params.3=='desc'?'asc':'desc')],getvar)|raw }}">{{ LANG.LAST_ACTIVITY }}</a></th>
+            <th {% if params.2 == 'department_id' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'department_id',(params.3=='desc'?'asc':'desc')],getvar)|raw }}">{{ LANG.DEPARTMENT }}</a></th>
+            <th {% if params.2 == 'status' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['page',page,'status',(params.3=='desc'?'asc':'desc')],getvar)|raw }}">{{ LANG.STATUS }}</a></th>
         </tr>
     </thead>
     {% for ticket in tickets %}
         <tr class="{{ ticket.td_class }}">
             <td width="15"><input type="checkbox" name="ticket_id[]" value="{{ ticket.id }}" class="checkall"></td>
-            <td><a href="{{ getUrl(controller,action,['view',ticket.id]) }}">{{ ticket.code }}</a></td>
-            <td><a href="{{ getUrl(controller,action,['view',ticket.id]) }}">{{ ticket.subject }}</a></td>
+            <td><a href="{{ getUrl(controller,action,['view',ticket.id])|raw }}">{{ ticket.code }}</a></td>
+            <td><a href="{{ getUrl(controller,action,['view',ticket.id])|raw }}">{{ ticket.subject }}</a></td>
             <td>{{ ticket.last_replier }}</td>
             <td>{{ ticket.replies }}</td>
             <td style="color:{{ ticket.priority_color }};">{{ ticket.priority }}</td>

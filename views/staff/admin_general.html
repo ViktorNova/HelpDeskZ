@@ -54,7 +54,7 @@ toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizes
         <li id="tab6">{{ LANG.SECURITY }}</li>
     </ul>
 	<div id="ctab1">
-    	<form method="post" action="{{ getUrl(controller,action,['general','update_helpdesk']) }}">
+    	<form method="post" action="{{ getUrl(controller,action,['general','update_helpdesk'])|raw }}">
         <input type="hidden" name="csrfhash" class="csrfhash" />
     	<table class="widget-table-form" cellspacing="4">
         	<tr>
@@ -204,7 +204,7 @@ toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizes
         </form>
     </div>
     <div id="ctab2">
-		<form method="post" action="{{ getUrl(controller,action,['general','update_homepage#ctab2']) }}">
+		<form method="post" action="{{ getUrl(controller,action,['general','update_homepage#ctab2'])|raw }}">
         <input type="hidden" name="csrfhash" class="csrfhash" />
     	<table class="widget-table-form">
             <tr>
@@ -242,7 +242,7 @@ toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizes
         </form>
     </div>
     <div id="ctab3">
-    	<form method="post" action="{{ getUrl(controller,action,['general','update_knowledgebase#ctab3']) }}">
+    	<form method="post" action="{{ getUrl(controller,action,['general','update_knowledgebase#ctab3'])|raw }}">
         <input type="hidden" name="csrfhash" class="csrfhash" />
     	<table class="widget-table-form">
             <tr>
@@ -313,7 +313,7 @@ toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizes
         </form>
     </div>
     <div id="ctab4">
-    	<form method="post" action="{{ getUrl(controller,action,['general','update_news#ctab4']) }}">
+    	<form method="post" action="{{ getUrl(controller,action,['general','update_news#ctab4'])|raw }}">
         <input type="hidden" name="csrfhash" class="csrfhash" />
     	<table class="widget-table-form">
             <tr>
@@ -343,7 +343,7 @@ toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizes
         </form>
     </div>
     <div id="ctab5">
-    	<form method="post" action="{{ getUrl(controller,action,['general','update_email#ctab5']) }}">
+    	<form method="post" action="{{ getUrl(controller,action,['general','update_email#ctab5'])|raw }}">
         <input type="hidden" name="csrfhash" class="csrfhash" />
     	<table class="widget-table-form">
         	<tr>
@@ -417,7 +417,7 @@ toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizes
         </form>
     </div>
     <div id="ctab6">
-    	<form method="post" action="{{ getUrl(controller,action,['general','update_security#ctab6']) }}">
+    	<form method="post" action="{{ getUrl(controller,action,['general','update_security#ctab6'])|raw }}">
         <input type="hidden" name="csrfhash" class="csrfhash" />
     	<table class="widget-table-form">
         	<tr>

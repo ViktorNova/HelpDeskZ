@@ -53,14 +53,14 @@
                 {% if settings.knowledgebase_mostpopular == 'yes' %}
                 	<td valign="top">
 						{% for popular_articles in popular_articles %}
-						<div class="knowledgebasearticlelist"><a href="{{ getUrl(controller,action,['preview','article', popular_articles.id]) }}">{{ popular_articles.title }}</a></div>
+						<div class="knowledgebasearticlelist"><a href="{{ getUrl(controller,action,['preview','article', popular_articles.id])|raw }}">{{ popular_articles.title }}</a></div>
 						{% endfor %}
 					</td>
 				{% endif %}
 				{% if settings.knowledgebase_newest == 'yes' %}
 					<td valign="top">
                     {% for newest_articles in newest_articles %}
-						<div class="knowledgebasearticlelist"><a href="{{ getUrl(controller,action,['preview','article', newest_articles.id]) }}">{{ newest_articles.title }}</a></div>
+						<div class="knowledgebasearticlelist"><a href="{{ getUrl(controller,action,['preview','article', newest_articles.id])|raw }}">{{ newest_articles.title }}</a></div>
 					{% endfor %}
 					</td>
 				{% endif %}

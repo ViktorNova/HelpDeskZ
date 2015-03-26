@@ -1,4 +1,4 @@
-<form method="post" action="{{ form_action }}">
+<form method="post" action="{{ form_action|raw }}">
 {% if custom_field|is_array %}
 <input type="hidden" name="do" value="edit_item" />
 <input type="hidden" name="item_id" value="{{ custom_field.id }}">

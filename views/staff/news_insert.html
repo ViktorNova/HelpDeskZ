@@ -39,7 +39,7 @@ toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizes
         	<li>{{ LANG.INSERT_NEWS }}</li>
         </ul>
         <div>
-        	<form method="post" action="{{ getUrl(controller,action,['insert','publish']) }}">
+        	<form method="post" action="{{ getUrl(controller,action,['insert','publish'])|raw }}">
             <input type="hidden" name="csrfhash" value="{{ getToken('news') }}" />
             <table  class="widget-table-form">
                 <tr>

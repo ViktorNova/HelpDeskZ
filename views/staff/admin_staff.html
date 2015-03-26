@@ -7,7 +7,7 @@
 {% elseif params.1 ==  'account_removed' %}{{ success_message(LANG.ACCOUNT_REMOVED) }}
 {% endif %}
 <script type="text/javascript">
-	var _staffUrl = '{{ getUrl(controller,action,['staff','getStaffForm','']) }}';
+	var _staffUrl = '{{ getUrl(controller,action,['staff','getStaffForm',''])|raw }}';
 </script>
 <div id="tabs">
 	<ul>
@@ -20,12 +20,12 @@
     	<table width="100%"  class="widget-table">
 		    <thead class="titles">
             <tr>
-                <th {% if params.1 == 'fullname' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['staff','fullname',(params.2 =='desc'?'asc':'desc')]) }}">{{ LANG.NAME }}</a></th>
-                <th {% if params.1 == 'email' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['staff','email',(params.2 =='desc'?'asc':'desc')]) }}">{{ LANG.EMAIL }}</a></th>
-                <th {% if params.1 == 'username' %}class="active"{% endif %} width="200"><a href="{{ getUrl(controller,action,['staff','username',(params.2 =='desc'?'asc':'desc')]) }}">{{ LANG.USERNAME }}</a></th>
-                <th {% if params.1 == 'admin' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['staff','admin',(params.2 =='desc'?'asc':'desc')]) }}">{{ LANG.ADMINISTRATOR }}</a></th>
-                <th {% if params.1 == 'login' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['staff','login',(params.2 =='desc'?'asc':'desc')]) }}">{{ LANG.LAST_LOGIN }}</a></th>
-                <th {% if params.1 == 'status' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['staff','status',(params.2 =='desc'?'asc':'desc')]) }}">{{ LANG.STATUS }}</a></th>
+                <th {% if params.1 == 'fullname' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['staff','fullname',(params.2 =='desc'?'asc':'desc')])|raw }}">{{ LANG.NAME }}</a></th>
+                <th {% if params.1 == 'email' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['staff','email',(params.2 =='desc'?'asc':'desc')])|raw }}">{{ LANG.EMAIL }}</a></th>
+                <th {% if params.1 == 'username' %}class="active"{% endif %} width="200"><a href="{{ getUrl(controller,action,['staff','username',(params.2 =='desc'?'asc':'desc')])|raw }}">{{ LANG.USERNAME }}</a></th>
+                <th {% if params.1 == 'admin' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['staff','admin',(params.2 =='desc'?'asc':'desc')])|raw }}">{{ LANG.ADMINISTRATOR }}</a></th>
+                <th {% if params.1 == 'login' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['staff','login',(params.2 =='desc'?'asc':'desc')])|raw }}">{{ LANG.LAST_LOGIN }}</a></th>
+                <th {% if params.1 == 'status' %}class="active"{% endif %}><a href="{{ getUrl(controller,action,['staff','status',(params.2 =='desc'?'asc':'desc')])|raw }}">{{ LANG.STATUS }}</a></th>
                 <th></th>
             </tr>
             </thead>
@@ -38,7 +38,7 @@
                 <td align="center">{% if r.admin == 1 %}<span style="color:green">{{ LANG.YES }}</span>{% else %}<span style="color:red">{{ LANG.NO }}</span>{% endif %}</td>
                 <td>{% if r.login == 0 %}-{% else %}{{ displayDate(r.login) }}{% endif %}</td>
                 <td align="center">{% if r.status == 'Enable' %}{{ LANG.ACTIVE }}{% else %}{{ LANG.LOCKED }}{% endif %}</td>
-                <td align="center">{% if r.id != staff.id %}<a href="{{ getUrl(controller, action, ['staff','remove_account',r.id]) }}" onclick="if(!confirm('{{ LANG.CONFIRM_REMOVE }}')){return false } "><img src="{{ getUrl('') }}/images/cp/crossout.png" /></a>{% endif %}</td>
+                <td align="center">{% if r.id != staff.id %}<a href="{{ getUrl(controller, action, ['staff','remove_account',r.id])|raw }}" onclick="if(!confirm('{{ LANG.CONFIRM_REMOVE }}')){return false } "><img src="{{ getUrl('') }}/images/cp/crossout.png" /></a>{% endif %}</td>
             </tr>
 			{% endfor %}
         </table>

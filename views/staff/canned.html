@@ -3,7 +3,7 @@
 {% block content %}
 <script>
 	var csrfhash = '{{ getToken('canned') }}'; 
-	var _cannedURL = '{{ getUrl(controller, action, ['canned','GetCannedForm','']) }}';
+	var _cannedURL = '{{ getUrl(controller, action, ['canned','GetCannedForm',''])|raw }}';
 	$(function(){
 		$(".csrfhash").val(csrfhash);
 	});
@@ -36,9 +36,9 @@
 		<tr class="{{ tdclass }}">
             <td><a href="javascript:void(0);" onclick="showCannedForm({{ canned.id }});">{{ canned.title }}</a></td>
             <td>
-            {% if canned.position != 1 %}<a href="{{ getUrl(controller, action, ['canned','move','up',canned.id]) }}"><img src="{{ getUrl('') }}/images/cp/up.png" /></a>{% endif %}
-            {% if canned.position != last_position %}<a href="{{ getUrl(controller, action, ['canned','move','down',canned.id]) }}"><img src="{{ getUrl('') }}/images/cp/down.png" /></a>{% endif %}
-            <a href="{{ getUrl(controller, action, ['canned','remove',canned.id]) }}" onclick="if(!confirm('{{ LANG.CONFIRM_REMOVE }}')){return false } "><img src="{{ getUrl('') }}/images/cp/crossout.png" /></a>
+            {% if canned.position != 1 %}<a href="{{ getUrl(controller, action, ['canned','move','up',canned.id])|raw }}"><img src="{{ getUrl('') }}/images/cp/up.png" /></a>{% endif %}
+            {% if canned.position != last_position %}<a href="{{ getUrl(controller, action, ['canned','move','down',canned.id])|raw }}"><img src="{{ getUrl('') }}/images/cp/down.png" /></a>{% endif %}
+            <a href="{{ getUrl(controller, action, ['canned','remove',canned.id])|raw }}" onclick="if(!confirm('{{ LANG.CONFIRM_REMOVE }}')){return false } "><img src="{{ getUrl('') }}/images/cp/crossout.png" /></a>
             </td>
 		</tr>
     {% endfor %}

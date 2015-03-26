@@ -10,7 +10,7 @@
 <div id="wrapper">
 	<div id="logo"></div>
 	<div class="login_box">
-    	<form method="post" action="{{ getUrl(controller,'login') }}">
+    	<form method="post" action="{{ getUrl(controller,'login')|raw }}">
     	<div>{{ LANG.USERNAME }}</div>
         <div><input type="text" name="username" size="30" /></div>
     	<div>{{ LANG.PASSWORD }}</div>

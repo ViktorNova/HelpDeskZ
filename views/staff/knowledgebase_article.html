@@ -53,7 +53,7 @@ toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizes
         	<li>{{ LANG.INSERT_ARTICLE }}</li>
         </ul>
         <div>
-        	<form method="post" action="{{ getUrl(controller,action,['article','publish']) }}" enctype="multipart/form-data">
+        	<form method="post" action="{{ getUrl(controller,action,['article','publish'])|raw }}" enctype="multipart/form-data">
             <input type="hidden" name="csrfhash" value="{{ getToken('article') }}" />
             <table  class="widget-table-form">
                 <tr>

@@ -7,9 +7,9 @@
         	<li>{{ LANG.VIEW_NEWS }}</li>
         </ul>
         <div>
-			<input type="button" value="{{ LANG.EDIT_NEWS }}" onclick="location.href='{{ getUrl(controller,action,['manage','edit',news.id]) }}';" /><br />
+			<input type="button" value="{{ LANG.EDIT_NEWS }}" onclick="location.href='{{ getUrl(controller,action,['manage','edit',news.id])|raw }}';" /><br />
 <br />
-            <div class="newstitle"><a href="{{ getUrl(controller,action,['view',news.id]) }}">{{ news.title }}</a></div>
+            <div class="newstitle"><a href="{{ getUrl(controller,action,['view',news.id])|raw }}">{{ news.title }}</a></div>
             <div class="newsdescription">{{ LANG.POSTED_BY_ON|replace({'%author%':news.author,'%date%': displayDate(news.date)}) }}</div>
             <div class="newscontent">{{ news.content|raw }}</div>
         </div>        
@@ -19,17 +19,17 @@
         </ul>
         <div>
 			{% for news in news_result %}
-            <div class="newstitle"><a href="{{ getUrl(controller,action,['view',news.id]) }}">{{ news.title }}</a></div>
+            <div class="newstitle"><a href="{{ getUrl(controller,action,['view',news.id])|raw }}">{{ news.title }}</a></div>
             <div class="newsdescription">{{ LANG.POSTED_BY_ON|replace({'%author%':news.author,'%date%': displayDate(news.date)}) }}</div>
             <div class="newscontent">{{ news.content|raw }}</div>
             {% endfor %}
 	{% if total_pages > 0 %}
         <div class="newspaginator">
         {% if total_pages > page %}
-		<a href="{{ getUrl(controller,action,['view','page',(page+1)]) }}">&laquo; {{ LANG.OLDEST_POSTS }}</a>
+		<a href="{{ getUrl(controller,action,['view','page',(page+1)])|raw }}">&laquo; {{ LANG.OLDEST_POSTS }}</a>
 		{% endif %}
         {% if page != 1 %}
-		<a href="{{ getUrl(controller,action,['view','page',(page-1)]) }}">{{ LANG.NEWEST_POSTS }} &raquo;</a>
+		<a href="{{ getUrl(controller,action,['view','page',(page-1)])|raw }}">{{ LANG.NEWEST_POSTS }} &raquo;</a>
 		{% endif %}
         </div>
        {% endif %}
