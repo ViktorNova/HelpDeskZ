@@ -27,10 +27,11 @@ http://www.site.com/support/install
 - The HelpDeskZ setup script will run. Click <strong>INSTALL HELPDESKZ</strong> and follow instructions through License agreement, Check Setup and Database settings.
 - Before closing the install script **DELETE the "install" directory from your server!**
 - Now it's time to setup your help desk! Open the <strong>admin</strong> folder in your browser, for example:<br />
-http://www.site.com/support/admin/<br />
+http://www.site.com/support/?v=staff<br />
 Use the login details that you enter in the installation process.
 - Go to <strong>Settings -&gt; General</strong> to get to the settings page.
 - Take some time and get familiar with all the available settings. Most should be self-explanatory,
+- If you want to use permalinks like http://www.site.com/support/staff/ then you have to enable this option on Settings -> General -> Helpdesk -> Use SEO-friendly URLs
 - Good luck using HelpDeskZ!
 - 
 ## Email Piping
