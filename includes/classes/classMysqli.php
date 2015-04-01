@@ -65,6 +65,12 @@ class MySQLIDB
 		$this->database = $db_name;
 		$this->connection_master = $this->db_connect($db_name, $db_server, $db_user, $db_passwd);
 	}
+    function testconnect($db_name, $db_server, $db_user, $db_passwd){
+        $this->connection_master = @$this->functions[connect]($db_server, $db_user, $db_passwd, $db_name);
+        if(!$this->connection_master){
+            return("<strong>Error MySQLi DB Connection</strong>. Please contact to site administrator.");
+        }
+    }
 	function db_connect($db_name, $db_server, $db_user, $db_passwd){
 		$link = @$this->functions[connect]($db_server, $db_user, $db_passwd, $db_name);
 		if ($this->functions['connect_errno']()){
