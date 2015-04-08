@@ -33,10 +33,7 @@
 require_once 'global.php';
 
 if($settings['permalink'] == 1){
-	$s_server = $_SERVER['SERVER_NAME'];
-	$q_string = $_SERVER['REQUEST_URI'];
-	$site_url = str_replace(array('http://','https://'),'',$settings['site_url']);
-	$q_string = str_replace($site_url, '', $s_server.$q_string);
+    $q_string = (isset($_SERVER['PATH_INFO'])?$_SERVER['PATH_INFO']:'');
 	$q_string = trim(filter_var($q_string, FILTER_SANITIZE_URL), '/');
 	if(strpos($q_string, '?') !== FALSE)
 		$q_string = substr($q_string, 0, strpos($q_string,'?'));
