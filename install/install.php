@@ -34,6 +34,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 define('HELPDESKZ_VERSION' , '1.0');
 define('HELPDESKZ_PATH', dirname(dirname(__FILE__)).'/');
+
 require_once HELPDESKZ_PATH.'includes/classes/classMysql.php';
 require_once HELPDESKZ_PATH.'includes/classes/classMysqli.php';
 require_once HELPDESKZ_PATH.'includes/classes/classInput.php';
@@ -355,98 +356,22 @@ exit;
 function helpdeskz_agreement(){
 	helpdeskz_header();
 ?>
-<h3>License agreement</h3>
+<h3>Welcome</h3>
 
-<p><b>Summary:</b></p>
-
+<p>Welcome to HelpDeskZ installation process! This will be easy and fun. If you need help, take a look to the ReadMe documentation
+(readme.html)</p>
+    <p>If you have new ideas to improve the software, feel free to contact us:</p>
 <ul>
-<li>The script is provided &quot;as is&quot;, without any warranty. Use at your own risk.<br />&nbsp;</li>
-<li>If you wish to remove the &quot;Powered by&quot; links a <a href="http://www.helpdeskz.com/contact" target="_blank">license is required</a>.</li>
+<li><a href="http://community.helpdeskz.com/">Community</a></li>
+    <li><a href="http://www.helpdeskz.com/help/submit_ticket">Helpdesk ticket</a></li>
 </ul>
-<p><b>The entire agreement:</b></p>
 
-<p align="center"><textarea style="width:99%; height:300px">
-LICENSE AGREEMENT
 
-The &quot;script&quot; is all files included with the HelpDeskZ distribution archive as well as all files produced as a result of the installation scripts. Evolution Script S.A.C. (&quot;Author&quot;,&quot;HelpDeskZ&quot;) is the author and copyrights owner of the script. The &quot;Licensee&quot; (&quot;you&quot;) is the person downloading or using the Licensed version of script. &quot;User&quot; is any person using or viewing the script with their HTML browser.
-
-&quot;Powered by&quot; link is herein defined as an anchor link pointing to HelpDeskZ website and/or script webpage, usually located at the bottom of the script and visible to users of the script without looking into source code.
-
-&quot;Copyright headers&quot; is a written copyright notice located in script source code and normally not visible to users.
-
-This License may be modified by the Author at any time. The new version of the License becomes valid when published on HelpDeskZ website. You are encouraged to regularly check back for License updates.
-
-THIS SCRIPT IS PROVIDED &quot;AS IS&quot; AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL EVOLUTION SCRIPT S.A.C. BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SCRIPT, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-Using this code, in part or full, to create derivative work, new scripts or products is expressly forbidden. Obtain permission before redistributing this software over the Internet or in any other medium.
-
-REMOVING POWERED BY LINKS
-You are not allowed to remove or in any way edit the &quot;Powered by&quot; links in this script without purchasing a License. You can purchase a License at
-https://www.helpdeskz.com/contact
-
-If you remove the Powered by links without purchasing a License and paying the licensee fee, you are in a direct violation of United States of America and International copyright laws. Your License to use the scripts is immediately terminated and you must delete all copies of the entire program from your web server. Evolution Script S.A.C. may, at any time, terminate this License agreement if Evolution Script S.A.C. determines, that this License agreement has been breached.
-
-Under no circumstance is the removal of copyright headers from the script source code permitted.
-
-TRADEMARK POLICY
-
-HelpDeskZ is a US registered trademark of Evolution Script S.A.C.. Certain usages of the Trademark are fine and no specific permission from the author is needed:
-
-- there is no commercial intent behind the use
-
-- what you are referring to is in fact HelpDeskZ. If someone is confused into thinking that what isn't HelpDeskZ is in fact HelpDeskZ, you are probably doing something wrong
-
-- there is no suggestion (through words or appearance) that your project is approved, sponsored, or affiliated with HelpDeskZ or its related projects unless it actually has been approved by and is accountable to the author
-
-Permission from the author is necessary to use the HelpDeskZ trademark under any circumstances other than those specifically permitted above. These include:
-
-- any commercial use
-
-- use on or in relation to a software product that includes or is built on top of a product supplied by author, if there is any commercial intent associated with that product
-
-- use in a domain name or URL
-
-- use for merchandising purposes, e.g. on t-shirts and the like
-
-- use of a name which includes the letters HelpDeskZ in relation to computer hardware or software.
-
-- services relating to any of the above
-
-If you wish to have permission for any of the uses above or for any other use which is not specifically referred to in this policy, please contact me and I'll let you know as soon as possible if your proposed use is permissible. Note that due to the volume of mail I receive, it may take some time to process your request. Permission may only be granted subject to certain conditions and these may include the requirement that you enter into an agreement with me to maintain the quality of the product and/or service which you intend to supply at a prescribed level.
-
-While there may be exceptions, it is very unlikely that we will approve Trademark use in the following cases:
-
-- use of a Trademark in a company name
-
-- use of a Trademark in a domain name which has a commercial intent. The commercial intent can range from promotion of a company or product, to collecting revenue generated by advertising
-
-- the calling of any software or product by the name HelpDeskZ (or another related Trademark), unless that software or product is a substantially unmodified HelpDeskZ product
-
-- use in combination with any other marks or logos. This include use of a Trademark in a manner that creates a "combined mark," or use that integrates other wording with the Trademark in a way that the public may think of the use as a new mark (for example Club HelpDeskZ or HelpDeskZBooks, or in a way that by use of special fonts or presentation with nearby words or images conveys an impression that the two are tied in some way)
-
-- use in combination with any product or service which is presented as being Certified or Official or formally associated with me or my products or services
-
-- use in a way which implies an endorsement where that doesn't exist, or which attempts to unfairly or confusingly capitalise on the goodwill or brand of the project
-
-- use of a Trademark in a manner that disparages HelpDeskZ and is not clearly third-party parody
-
-- on or in relation to a software product which constitutes a substantially modified version of a product supplied by HelpDeskZ.com, that is to say with material changes to the code, or services relating to such a product
-
-- in a title or metatag of a web page whose sole intention or result is to influence search engine rankings or result listings, rather than for discussion, development or advocacy of the Trademarks
-
-OTHER
-
-This License Agreement is governed by the laws of United States of America.
-
-If any provision hereof shall be held illegal, invalid or unenforceable, in whole or in part, such provision shall be modified to the minimum extent necessary to make it legal, valid and enforceable, and the legality, validity and enforceability of all other provisions of this Agreement shall not be affected thereby. No delay or failure by either party to exercise or enforce at any time any right or provision hereof shall be considered a waiver thereof or of such party's right thereafter to exercise or enforce each and every right and provision of this Agreement.
-</textarea></p>
     	<form method="post" action="./install.php">
-	<p><b>Do you agree to the License agreement and all the terms incorporated therein?</b> <font color="#FF0000"><i>(required)</i></font></b></p>
+
     
 	<input type="hidden" name="license" value="agree" />
-	<input type="button" onClick="location.href='/';" value="NO, I DO NOT AGREE (Cancel setup)" />
-	&nbsp;
-	<input type="submit" value="YES, I AGREE (Click to continue) &raquo;" />
+	<input type="submit" value="Continue" />
 
         </form>
 <?
