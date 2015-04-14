@@ -43,3 +43,10 @@ For detailed information please see this <a href="http://www.helpdeskz.com/help/
 
 ## Translate HelpDeskZ to your language
 To translate HelpDeskZ read <a href="http://www.helpdeskz.com/help/knowledgebase/2/article/8/how-can-i-translate-helpdeskz">How can I translate HelpDeskZ.</a>
+
+## Rate us
+Rate our script on:
+- http://www.hotscripts.com/listing/helpdeskz/
+- http://www.opensourcescripts.com/info/helpdeskz.html
+
+Note: HelpDeskZ can now be installed easily with just one click via <a href="http://www.softaculous.com/apps/customersupport/HelpDeskZ">Softaculous.</a>
