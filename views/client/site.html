@@ -25,7 +25,7 @@
             <li><a href="{{ getUrl('knowledgebase') }}" {% if controller == 'knowledgebase' %}class="current"{% endif %}>{{ LANG.KNOWLEDGEBASE }}</a></li>
             {% endif %}
             {% if settings.news == 'yes' %}
-            <li><a href="{{ getUrl('news') }}" <?php echo {% if controller == 'news' %}class="current"{% endif %}>{{ LANG.NEWS }}</a></li>
+            <li><a href="{{ getUrl('news') }}" {% if controller == 'news' %}class="current"{% endif %}>{{ LANG.NEWS }}</a></li>
             {% endif %}
         </ul>
         <div id="language">
@@ -44,7 +44,6 @@
             <div class="left_content">
             	<div class="memberbox">
                 	{% if client_status != 1 %}
-                	<?php if($client_status != 1){ ?>
                 	<div class="mheader">{{ LANG.ACCOUNT_LOGIN }}</div>
                     <div class="mcontent">
                     	<form method="post" action="{{ getUrl('login') }}" autocomplete="off">
