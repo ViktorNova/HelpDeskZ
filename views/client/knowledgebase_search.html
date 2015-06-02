@@ -7,7 +7,7 @@
     {% else %}
     	{% for kb in kb %}
         <div class="knowledgebasearticlelisttitle"><a href="{{ kb.url }}">{{ kb.title }}</a></div>
-		<div style="margin-bottom:20px;">{{ kb.content }}</div>
+		<div style="margin-bottom:20px;">{{ kb.content|raw }}</div>
         {% endfor %}
     {% endif %}
 {% endblock %}
