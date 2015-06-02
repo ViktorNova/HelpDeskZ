@@ -29,6 +29,8 @@ To upgrade from 1.0 to 1.0.2
     /images/facebook.png
     /includes/bootstrap.php
     /includes/functions.php
+    /includes/language/staff/english.php
+    /includes/language/staff/spanish.php
     /install/*.*
     /js/staff.js
     /views/client/knowledgebase_article.html
