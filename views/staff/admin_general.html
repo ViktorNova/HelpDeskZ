@@ -42,6 +42,8 @@ toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizes
 	var csrfhash = '{{ getToken('general_settings') }}'; 
 	$(function(){
 		$(".csrfhash").val(csrfhash);
+        checksocialdetails('facebook');
+        checksocialdetails('google');
 	});
 </script>
 <div id="tabs">
@@ -52,6 +54,7 @@ toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizes
         <li id="tab4">{{ LANG.NEWS }}</li>
         <li id="tab5">{{ LANG.EMAIL }}</li>
         <li id="tab6">{{ LANG.SECURITY }}</li>
+        <li id="tab7">{{ LANG.SOCIAL }}</li>
     </ul>
 	<div id="ctab1">
     	<form method="post" action="{{ getUrl(controller,action,['general','update_helpdesk'])|raw }}">
@@ -140,11 +143,10 @@ toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizes
 <span class="description"> {{ LANG.HTACCESS_CONTENT_MODIFICATION }}<br />
  <p>&lt;IfModule mod_rewrite.c&gt;<br />
    RewriteEngine On<br />
-   RewriteBase /<br />
    RewriteRule ^(?:controllers|includes|uploads|views)\b.* index.php/$0 [L]<br />
    RewriteCond %{REQUEST_FILENAME} !-f<br />
    RewriteCond %{REQUEST_FILENAME} !-d<br />
-   RewriteRule .* index.php/$0 [PT]<br />
+   RewriteRule ^(.*)$ index.php/$1 [L]<br />
    &lt;/IfModule&gt;</span></td>
 
                 </td>
@@ -471,6 +473,93 @@ toolbar: "insertfile undo redo | styleselect | bold italic underline | fontsizes
                 </td>
             </tr>
         </table>
+        </form>
+    </div>
+    <div id="ctab7">
+        <form method="post" action="{{ getUrl(controller,action,['general','update_social#ctab7'])|raw }}">
+            <input type="hidden" name="csrfhash" class="csrfhash" />
+            <table class="widget-table-form">
+                <tr>
+                    <td width="40%">{{ LANG.USE_FACEBOOK_LOGIN }}<br />
+                        <span class="description">{{ LANG.USE_FACEBOOK_LOGIN_TXT }}</span>
+                    </td>
+                    <td>
+                        <select name="facebookoauth" id="facebookoauth" onchange="checksocialdetails('facebook');">
+                            <option value="1" {% if settings.facebookoauth == '1' %}selected{% endif %}>{{ LANG.YES }}</option>
+                            <option value="0" {% if settings.facebookoauth != '1' %}selected{% endif %}>{{ LANG.NO }}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr id="facebook_tr1">
+                    <td>{{ LANG.FACEBOOK_APP_ID }}</td>
+                    <td>
+                        <input type="text" name="facebookappid" value="{{ settings.facebookappid }}" size="30">
+                    </td>
+                </tr>
+                <tr id="facebook_tr2">
+                    <td>{{ LANG.FACEBOOK_APP_SECRET }}</td>
+                    <td>
+                        <input type="password" name="facebookappsecret" value="{{ settings.facebookappsecret }}" size="30">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="40%">{{ LANG.USE_GOOGLE_OAUTH }}<br />
+                        <span class="description">{{ LANG.USE_GOOGLE_OAUTH_TXT }}</span>
+                    </td>
+                    <td>
+                        <select name="googleoauth" id="googleoauth" onchange="checksocialdetails('google');">
+                            <option value="1" {% if settings.googleoauth == '1' %}selected{% endif %}>{{ LANG.YES }}</option>
+                            <option value="0" {% if settings.googleoauth != '1' %}selected{% endif %}>{{ LANG.NO }}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr id="google_tr1">
+                    <td>{{ LANG.GOOGLE_CLIENT_ID }}</td>
+                    <td>
+                        <input type="text" name="googleclientid" value="{{ settings.googleclientid }}" size="30">
+                    </td>
+                </tr>
+                <tr id="google_tr2">
+                    <td>{{ LANG.GOOGLE_CLIENT_SECRET }}</td>
+                    <td>
+                        <input type="password" name="googleclientsecret" value="{{ settings.googleclientsecret }}" size="30">
+                    </td>
+                </tr>
+                <tr id="google_tr3">
+                    <td>{{ LANG.GOOGLE_REDIRECT_URIS }}</td>
+                    <td>
+                        {{ settings.site_url }}/googleOAuth/
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ LANG.USE_SOCIAL_BUTTONS_NEWS }}<br />
+                        <span class="description">{{ LANG.USE_SOCIAL_BUTTONS_NEWS_TXT }}</span>
+                    </td>
+                    <td>
+                        <select name="socialbuttonnews">
+                            <option value="1" {% if settings.socialbuttonnews == '1' %}selected{% endif %}>{{ LANG.YES }}</option>
+                            <option value="0" {% if settings.socialbuttonnews != '1' %}selected{% endif %}>{{ LANG.NO }}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ LANG.USE_SOCIAL_BUTTONS_KB }}<br />
+                        <span class="description">{{ LANG.USE_SOCIAL_BUTTONS_KB_TXT }}</span>
+                    </td>
+                    <td>
+                        <select name="socialbuttonkb">
+                            <option value="1" {% if settings.socialbuttonkb == '1' %}selected{% endif %}>{{ LANG.YES }}</option>
+                            <option value="0" {% if settings.socialbuttonkb != '1' %}selected{% endif %}>{{ LANG.NO }}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" name="btn" value="{{ LANG.UPDATE }}" />
+                    </td>
+                </tr>
+            </table>
         </form>
     </div>
 </div>

@@ -1,0 +1,40 @@
+Welcome to HelpDeskZ 1.0.2
+==========================
+
+We have made some changes in this new version like:
+
+- SEO-friendly URLs compatibility fixed
+
+- Login with Facebook account (Facebook connect)
+
+- Login with Google account (Google OAuth)
+
+- Email notification to staff assigned when new ticket is created
+
+- Social buttons to share knowledgebase articles or news
+
+
+To upgrade from 1.0 to 1.0.2
+============================
+
+- Upload the next files:
+    /controllers/admin/general_action.php
+    /controllers/login_controller.php
+    /controllers/staff/preferences_action.php
+    /controllers/submit_ticket_controller.php
+    /css/style.css
+    /facebookOAuth/*.*
+    /googleOAuth/*.*
+    /images/google.png
+    /images/facebook.png
+    /includes/bootstrap.php
+    /includes/functions.php
+    /install/*.*
+    /js/staff.js
+    /views/client/knowledgebase_article.html
+    /views/client/news_article.html
+    /views/client/site.html
+    /views/staff/admin_general.html
+    /views/staff/preferences.html
+
+- Visit the url http://yourHelpDeskz.com/install click on upgrade button and follow the indications.

@@ -62,7 +62,7 @@ if(isset($_COOKIE['lang'])){
 	$default_language = $settings['client_language'];
 	setcookie('lang',$default_language, time()+604800);
 }
-	
+
 include(INCLUDES.'language/'.$default_language.'.php');
 /* Template Loader */
 

@@ -9,17 +9,32 @@
 require_once 'global.php';
 
 if($settings['permalink'] == 1){
-    $q_string = (isset($_SERVER['PATH_INFO'])?$_SERVER['PATH_INFO']:'');
-	$q_string = trim(filter_var($q_string, FILTER_SANITIZE_URL), '/');
-	if(strpos($q_string, '?') !== FALSE)
-		$q_string = substr($q_string, 0, strpos($q_string,'?'));
-	$q_pieces = explode('/', $q_string);
-	$controller = (empty($q_pieces[0])) ? 'home': $q_pieces[0];
-	$action = (empty($q_pieces[1])) ? 'index': $q_pieces[1];
-	$params = array();
-	for($i=2;$i<count($q_pieces);$i++) {
-		$params[] = $q_pieces[$i];
-	}
+    /* @since 1.0.2 */
+    $uri = parse_url($_SERVER['REQUEST_URI']);
+    $query = isset($uri['query']) ? $uri['query'] : '';
+    $uri = isset($uri['path']) ? $uri['path'] : '';
+    if (isset($_SERVER['SCRIPT_NAME'][0]))
+    {
+        if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0)
+        {
+            $uri = (string) substr($uri, strlen($_SERVER['SCRIPT_NAME']));
+        }
+        elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0)
+        {
+            $uri = (string) substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));
+        }
+    }
+    $uri = trim(filter_var($uri, FILTER_SANITIZE_URL), '/');
+    $q_pieces = explode('/', $uri);
+
+    /* @since 1.0.0 */
+    $controller = (empty($q_pieces[0])) ? 'home': $q_pieces[0];
+    $action = (empty($q_pieces[1])) ? 'index': $q_pieces[1];
+    $params = array();
+    for($i=2;$i<count($q_pieces);$i++) {
+        $params[] = $q_pieces[$i];
+    }
+
 	$filename = CONTROLLERS.$controller.'_controller.php';
 	
 	if (!is_file($filename)){

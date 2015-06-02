@@ -8,9 +8,7 @@
  */
 error_reporting(E_ALL & ~E_NOTICE);
 session_start();
-define('HELPDESKZ_VERSION' , '1.0');
-define('HELPDESKZ_PATH', dirname(dirname(__FILE__)).'/');
-
+require_once __DIR__.'/functions.php';
 require_once HELPDESKZ_PATH.'includes/classes/classMysql.php';
 require_once HELPDESKZ_PATH.'includes/classes/classMysqli.php';
 require_once HELPDESKZ_PATH.'includes/classes/classInput.php';
@@ -149,6 +147,7 @@ function helpdeskz_getQuery($db_prefix, $admin_user, $admin_password){
 	  `department` text,
 	  `timezone` varchar(255) DEFAULT NULL,
 	  `signature` mediumtext,
+	  `newticket_notification` smallint(1) NOT NULL DEFAULT '0',
 	  `avatar` varchar(200) DEFAULT NULL,
 	  `admin` int(1) NOT NULL DEFAULT '0',
 	  `status` enum('Enable','Disable') NOT NULL DEFAULT 'Enable',
@@ -199,12 +198,13 @@ function helpdeskz_getQuery($db_prefix, $admin_user, $admin_password){
 	) ENGINE=InnoDB  DEFAULT CHARSET=latin1;";		
 	
 	$query[] = "INSERT INTO `".$db_prefix."departments` (`id`, `dep_order`, `name`, `type`, `autoassign`) VALUES(1, 1, 'General', 0, 1);";
-	$query[] = "INSERT INTO `".$db_prefix."emails` (`id`, `orderlist`, `name`, `subject`, `message`) VALUES
+    $query[] = "INSERT INTO `".$db_prefix."emails` (`id`, `orderlist`, `name`, `subject`, `message`) VALUES
 ('staff_reply', 5, 'Staff Reply', '[#%ticket_id%] %ticket_subject%', '%message%\n\n\nTicket Details\n---------------\n\nTicket ID: %ticket_id%\nDepartment: %ticket_department%\nStatus: %ticket_status%\nPriority: %ticket_priority%\n\n\nHelpdesk: %helpdesk_url%'),
 ('autoresponse', 4, 'New Message Autoresponse', '[#%ticket_id%] %ticket_subject%', 'Dear %client_name%,\n\nYour reply to support request #%ticket_id% has been noted.\n\n\nTicket Details\n---------------\n\nTicket ID: %ticket_id%\nDepartment: %ticket_department%\nStatus: %ticket_status%\nPriority: %ticket_priority%\n\n\nHelpdesk: %helpdesk_url%'),
 ('new_ticket', 3, 'New ticket creation', '[#%ticket_id%] %ticket_subject%', 'Dear %client_name%,\n\nThank you for contacting us. This is an automated response confirming the receipt of your ticket. One of our agents will get back to you as soon as possible. For your records, the details of the ticket are listed below. When replying, please make sure that the ticket ID is kept in the subject line to ensure that your replies are tracked appropriately.\n\n		Ticket ID: %ticket_id%\n		Subject: %ticket_subject%\n		Department: %ticket_department%\n		Status: %ticket_status%\n                Priority: %ticket_priority%\n\n\nYou can check the status of or reply to this ticket online at: %helpdesk_url%\n\nRegards,\n%company_name%'),
 ('new_user', 1, 'Welcome email registration', 'Welcome to %company_name% helpdesk', 'This email is confirmation that you are now registered at our helpdesk.\n\nRegistered email: %client_email%\nPassword: %client_password%\n\nYou can visit the helpdesk to browse articles and contact us at any time: %helpdesk_url%\n\nThank you for registering!\n\n%company_name%\nHelpdesk: %helpdesk_url%'),
-('lost_password', 2, 'Lost password confirmation', 'Lost password request for %company_name% helpdesk', 'We have received a request to reset your account password for the %company_name% helpdesk (%helpdesk_url%).\n\nYour new passsword is: %client_password%\n\nThank you,\n\n\n%company_name%\nHelpdesk: %helpdesk_url%');
+('lost_password', 2, 'Lost password confirmation', 'Lost password request for %company_name% helpdesk', 'We have received a request to reset your account password for the %company_name% helpdesk (%helpdesk_url%).\n\nYour new passsword is: %client_password%\n\nThank you,\n\n\n%company_name%\nHelpdesk: %helpdesk_url%'),
+('staff_ticketnotification', 6, 'New ticket notification to staff', 'New ticket notification', 'Dear %staff_name%,\r\n\r\nA new ticket has been created in department assigned for you, please login to staff panel to answer it.\r\n\r\n\r\nTicket Details\r\n---------------\r\n\r\nTicket ID: %ticket_id%\r\nDepartment: %ticket_department%\r\nStatus: %ticket_status%\r\nPriority: %ticket_priority%\r\n\r\n\r\nHelpdesk: %helpdesk_url%');
 ";
 	$query[] = "INSERT INTO `".$db_prefix."file_types` (`id`, `type`, `size`) VALUES
 (1, 'gif', '0'),
@@ -277,7 +277,16 @@ function helpdeskz_getQuery($db_prefix, $admin_user, $admin_password){
 ('client_language', 'english'),
 ('staff_language', 'english'),
 ('client_multilanguage', '0'),
-('maintenance', '0');";
+('maintenance', '0'),
+('facebookoauth', '0'),
+('facebookappid', NULL),
+('facebookappsecret', NULL),
+('googleoauth', '0'),
+('googleclientid', NULL),
+('googleclientsecret', NULL),
+('socialbuttonnews', '0'),
+('socialbuttonkb', '0');";
+
 
 	$query[] = "INSERT INTO `".$db_prefix."staff` (`id`, `username`, `password`, `fullname`, `email`, `login`, `last_login`, `department`, `timezone`, `signature`, `avatar`, `admin`, `status`) VALUES
 (1, '".$admin_user."', '".sha1($admin_password)."', 'Administrator', 'support@mysite.com', 0, 0, 'a:1:{i:0;s:1:\"1\";}', '', 'Best regards,\r\nAdministrator', NULL, 1, 'Enable');";
@@ -300,34 +309,7 @@ function helpdeskz_saveConfigFile($db_host, $db_name, $db_user, $db_password, $d
 		return true;	
 	}
 }
-function helpdeskz_header(){
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>HelpDeskZ v<?php echo HELPDESKZ_VERSION;?> Installation</title>
-<link href="install.css" type="text/css" rel="stylesheet" />
-</head>
 
-<body>
-<div id="wrapper">
-	<div id="logo"></div>
-	<div class="login_box">
-<?
-}
-function helpdeskz_footer(){
-?>
-	</div>
-    <div class="footer">
-    	Helpdesk Software Powered by HelpDeskZ
-    </div>
-</div>
-</body>
-</html>
-<?	
-exit;
-}
 
 function helpdeskz_agreement(){
 	helpdeskz_header();
@@ -498,7 +480,7 @@ function helpdeskz_database($error_msg =null){
     </table>
     <h3>HelpDeskZ login details</h3>
 
-    <p>Username and password you will use to login into HESK administration.</p>
+    <p>Username and password you will use to login into HelpDeskZ administration.</p>
 		<table>
 		<tr>
 		<td width="200">Choose a Username:</td>
@@ -525,6 +507,7 @@ function helpdeskz_completed(){
 ?>
 	<h3>Installation Completed</h3>
     <p>Installation has been successfully completed, <strong>do not forget to remove</strong> <strong style="color:red">/install</strong> folder</p>
+    <p><a href="../?v=staff" target="_blank">Click here to open staff panel</a></p>
 <?
 	helpdeskz_footer();	
 }

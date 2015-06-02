@@ -362,4 +362,21 @@ $LANG['ALLOW_CHANGE_LANGUAGE_TXT'] = 'Customers can change the language of helpd
 $LANG['DEFAULT_HELPDESK_STAFF_LANGUAGE'] = 'Default helpdesk language for staff panel';
 $LANG['DEFAULT_HELPDESK_STAFF_LANGUAGE_TXT'] = 'The language that your helpdesk will load for staff and admin';
 $LANG['HTACCESS_CONTENT_MODIFICATION'] = 'If yes, add a file called .htaccess with the following contents.';
+
+$LANG['NEW_TICKET_NOTIFICATION'] = 'New Ticket Notification';
+$LANG['NEW_TICKET_NOTIFICATION_TXT'] = 'Notify me when new ticket is created in a department assigned to me.';
+$LANG['SOCIAL'] = 'Social';
+$LANG['USE_FACEBOOK_LOGIN'] = 'Use Facebook Login';
+$LANG['USE_FACEBOOK_LOGIN_TXT'] = 'Allow your client to login to your helpdesk using a facebook account.';
+$LANG['FACEBOOK_APP_ID'] = 'Facebook APP ID';
+$LANG['FACEBOOK_APP_SECRET'] = 'Facebook APP Secret';
+$LANG['USE_GOOGLE_OAUTH'] = 'Use Google OAuth';
+$LANG['USE_GOOGLE_OAUTH_TXT'] = 'Allow your client to login to your helpdesk using a google account via Google OAuth';
+$LANG['GOOGLE_CLIENT_ID'] = 'Google Client ID';
+$LANG['GOOGLE_CLIENT_SECRET'] = 'Google Client Secret';
+$LANG['GOOGLE_REDIRECT_URIS'] = 'Google Redirect URIs';
+$LANG['USE_SOCIAL_BUTTONS_NEWS'] = 'Use Social buttons on News';
+$LANG['USE_SOCIAL_BUTTONS_NEWS_TXT'] = 'Allow to clients or visitors to share your news article via facebook, twitter or other social page.';
+$LANG['USE_SOCIAL_BUTTONS_KB'] = 'Use Social buttons on Knowledgebase';
+$LANG['USE_SOCIAL_BUTTONS_KB_TXT'] = 'Allow to clients or visitors to share your knowledgebase article via facebook, twitter or other social page.';
 ?>

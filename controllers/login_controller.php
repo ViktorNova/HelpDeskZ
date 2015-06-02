@@ -28,6 +28,10 @@ include(INCLUDES.'helpdesk.inc.php');
 				$xml = simplexml_load_string($output);
 				if($xml !== false){
 					if($xml->result == 1 && !empty($xml->user->fullname) && !empty($xml->user->email)){
+                        hdz_registerAccount(array('fullname' => $xml->user->fullname,
+                                                    'email' => $xml->user->email,
+                                                    'password' => $input->p['password']), FALSE, TRUE);
+
 						$data = array('fullname' => $xml->user->fullname, 'email' => $xml->user->email, 'password' => sha1($input->p['password']));
 						$chk = $db->fetchOne("SELECT COUNT(id) AS NUM FROM ".TABLE_PREFIX."users WHERE email='".$db->real_escape_string($input->p['email'])."'");
 						
@@ -50,16 +54,7 @@ include(INCLUDES.'helpdesk.inc.php');
 				}else{
 					$cookie_time = 1;						
 				}
-				$user = $db->fetchRow("SELECT * FROM ".TABLE_PREFIX."users WHERE email='".$db->real_escape_string($input->p['email'])."'");
-				$cookie_time = time() + (60*60*$cookie_time);
-				$data = array('id' => $user['id'], 'email' => $user['email'], 'password' => $user['password'], 'expires' => $cookie_time);
-				$data = serialize($data);
-				$data = encrypt($data);
-
-				setcookie('usrhash', $data, $cookie_time, '/');
-				$_SESSION['user']['id'] = $user['id'];
-				$_SESSION['user']['email'] = $user['email'];
-				$_SESSION['user']['password'] = $user['password'];
+                hdz_loginAccount($input->p['email'], $cookie_time);
 				header('location: '.getUrl('view_tickets'));
 				exit;
 			}

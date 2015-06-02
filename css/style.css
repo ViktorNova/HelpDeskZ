@@ -530,3 +530,50 @@ text-align:center;
 	font-size:24px;
 	padding:5px 0px;
 }
+
+/* V1.0.2 */
+.social_button{
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(top,  #ffffff 0%, #e6e6e6 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e6e6e6)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#e6e6e6 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #ffffff 0%,#e6e6e6 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #ffffff 0%,#e6e6e6 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #ffffff 0%,#e6e6e6 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e6e6e6',GradientType=0 ); /* IE6-9 */
+    border:1px solid #d9d9d9;
+    border-radius: 4px;
+    padding: 2px 5px;
+    width: 110px;
+    display: block;
+    color: #333333;
+    text-align: left;
+    margin-top: 10px;
+}
+.social_button:hover{
+    background: #f4f4f4; /* Old browsers */
+    background: -moz-linear-gradient(top,  #f4f4f4 0%, #e6e6e6 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(100%,#e6e6e6)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #f4f4f4 0%,#e6e6e6 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #f4f4f4 0%,#e6e6e6 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #f4f4f4 0%,#e6e6e6 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #f4f4f4 0%,#e6e6e6 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f4f4f4', endColorstr='#e6e6e6',GradientType=0 ); /* IE6-9 */
+    color: #333333;
+}
+.social_button .google{
+    background: url('../images/google.png');
+    width:20px;
+    height:20px;
+    display: inline-block;
+    vertical-align: text-top;
+    margin-right: 10px;
+}
+.social_button .facebook{
+    background: url('../images/facebook.png');
+    width:20px;
+    height:20px;
+    display: inline-block;
+    vertical-align: text-top;
+    margin-right: 10px;
+}

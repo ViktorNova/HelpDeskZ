@@ -104,6 +104,21 @@ if($params[1] == 'update_helpdesk'){
 		header('location: '.getUrl($controller,$action, array('general','security_updated#ctab6')));
 		exit;	
 	}
+}elseif($params[1] == 'update_social'){
+    if(verifyToken('general_settings', $input->p['csrfhash']) !== true){
+        $error_msg = $LANG['CSRF_ERROR'];
+    }else{
+        $db->update(TABLE_PREFIX."settings", array('value' => ($input->p['facebookoauth'] == 1?1:0)), "field='facebookoauth'");
+        $db->update(TABLE_PREFIX."settings", array('value' => $input->p['facebookappid']), "field='facebookappid'");
+        $db->update(TABLE_PREFIX."settings", array('value' => $input->p['facebookappsecret']), "field='facebookappsecret'");
+        $db->update(TABLE_PREFIX."settings", array('value' => ($input->p['googleoauth'] == 1?1:0)), "field='googleoauth'");
+        $db->update(TABLE_PREFIX."settings", array('value' => $input->p['googleclientid']), "field='googleclientid'");
+        $db->update(TABLE_PREFIX."settings", array('value' => $input->p['googleclientsecret']), "field='googleclientsecret'");
+        $db->update(TABLE_PREFIX."settings", array('value' => $input->p['socialbuttonnews']), "field='socialbuttonnews'");
+        $db->update(TABLE_PREFIX."settings", array('value' => $input->p['socialbuttonkb']), "field='socialbuttonkb'");
+        header('location: '.getUrl($controller,$action, array('general','security_social#ctab7')));
+        exit;
+    }
 }
 $homepage = $db->fetchRow("SELECT * FROM ".TABLE_PREFIX."pages WHERE id='home'");
 $page_title = 'Settings > General';

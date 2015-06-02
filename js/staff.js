@@ -218,3 +218,33 @@ function showUserForm(_userID){
 		stop_loader();		
 	});
 }
+
+/* Social */
+function checksocialdetails(type)
+{
+    if(type == 'facebook')
+    {
+        var socialType = $("#facebookoauth").val();
+        if(socialType == 1)
+        {
+            $("#facebook_tr1").show();
+            $("#facebook_tr2").show();
+        }else{
+            $("#facebook_tr1").hide();
+            $("#facebook_tr2").hide();
+        }
+    }else if(type == 'google')
+    {
+        var socialType = $("#googleoauth").val();
+        if(socialType == 1)
+        {
+            $("#google_tr1").show();
+            $("#google_tr2").show();
+            $("#google_tr3").show();
+        }else{
+            $("#google_tr1").hide();
+            $("#google_tr2").hide();
+            $("#google_tr3").hide();
+        }
+    }
+}

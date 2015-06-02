@@ -25,7 +25,7 @@
             <li><a href="{{ getUrl('knowledgebase') }}" {% if controller == 'knowledgebase' %}class="current"{% endif %}>{{ LANG.KNOWLEDGEBASE }}</a></li>
             {% endif %}
             {% if settings.news == 'yes' %}
-            <li><a href="{{ getUrl('news') }}" {% if controller == 'news' %}class="current"{% endif %}>{{ LANG.NEWS }}</a></li>
+            <li><a href="{{ getUrl('news') }}" <?php echo {% if controller == 'news' %}class="current"{% endif %}>{{ LANG.NEWS }}</a></li>
             {% endif %}
         </ul>
         <div id="language">
@@ -44,6 +44,7 @@
             <div class="left_content">
             	<div class="memberbox">
                 	{% if client_status != 1 %}
+                	<?php if($client_status != 1){ ?>
                 	<div class="mheader">{{ LANG.ACCOUNT_LOGIN }}</div>
                     <div class="mcontent">
                     	<form method="post" action="{{ getUrl('login') }}" autocomplete="off">
@@ -66,6 +67,17 @@
                                 </tr>
                             </table>
                         </div>
+                            {% if settings.googleoauth == 1 or settings.facebookoauth == 1 %}
+                            <div align="center" style="padding:0px 16px 16px 16px;">
+                                Or login with:
+                                {% if settings.googleoauth == 1 %}
+                                <a href="{{ getUrl() }}/googleOAuth" class="social_button"><span class="google"></span> Google</a>
+                                {% endif %}
+                                {% if settings.facebookoauth == 1 %}
+                                <a href="{{ getUrl() }}/facebookOAuth" class="social_button"><span class="facebook"></span> Facebook</a>
+                                {% endif %}
+                            </div>
+                            {% endif %}
                         </form>
                     </div>
                     {% else %}

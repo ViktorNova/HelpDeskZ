@@ -62,6 +62,15 @@
                 </td>
             </tr>
             <tr>
+                <td>{{ LANG.NEW_TICKET_NOTIFICATION }}<br>
+                    <span class="description">{{ LANG.NEW_TICKET_NOTIFICATION_TXT }}</span>
+                </td>
+                <td><select name="newticket_notification">
+                    <option value="1" {% if staff.newticket_notification == 1 %}selected{% endif %}>{{ LANG.YES }}</option>
+                    <option value="0" {% if staff.newticket_notification != 1 %}selected{% endif %}>{{ LANG.NO }}</option>
+                </select></td>
+            </tr>
+            <tr>
             	<td colspan="2">
                 	<input type="submit" name="btn" value="{{ LANG.UPDATE }}" />
                 </td>

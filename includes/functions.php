@@ -231,4 +231,54 @@ function ticketpaginator($total_pages,$page,$url){
 		echo '</div>';
 	  }
 }
+
+function hdz_registerAccount($data, $sendmail=TRUE, $updateinfo=FALSE)
+{
+    global $db;
+    $fullname = $data['fullname'];
+    $email = $data['email'];
+    $password = (isset($data['password'])?$data['password']:substr((md5(time().$fullname)),5,7));
+    $data_insert = array('fullname' => $fullname,
+        'email' => $email,
+        'password' => sha1($password),
+    );
+    $chk = $db->fetchRow("SELECT COUNT(id) AS total, id FROM ".TABLE_PREFIX."users WHERE email='".$db->real_escape_string($email)."'");
+    if($chk['total'] == 0){
+        $db->insert(TABLE_PREFIX."users", $data_insert);
+        $user_id = $db->lastInsertId();
+
+        /* Mailer */
+        if($sendmail === TRUE)
+        {
+            $data_mail = array(
+                'id' => 'new_user',
+                'to' => $fullname,
+                'to_mail' => $email,
+                'vars' => array('%client_name%' => $fullname, '%client_email%' => $email, '%client_password%' => $password),
+            );
+            $mailer = new Mailer($data_mail);
+        }
+    }else{
+        $user_id = $chk['id'];
+        if($updateinfo === TRUE)
+        {
+            $db->update(TABLE_PREFIX."users", $data_insert, "email='".$db->real_escape_string($email)."'");
+        }
+    }
+    return $user_id;
+}
+
+function hdz_loginAccount($email,$cookie_time=48)
+{
+    global $db;
+    $user = $db->fetchRow("SELECT * FROM ".TABLE_PREFIX."users WHERE email='".$db->real_escape_string($email)."'");
+    $cookie_time = time() + (60*60*$cookie_time);
+    $data = array('id' => $user['id'], 'email' => $user['email'], 'password' => $user['password'], 'expires' => $cookie_time);
+    $data = serialize($data);
+    $data = encrypt($data);
+    setcookie('usrhash', $data, $cookie_time, '/');
+    $_SESSION['user']['id'] = $user['id'];
+    $_SESSION['user']['email'] = $user['email'];
+    $_SESSION['user']['password'] = $user['password'];
+}
 ?>

@@ -1,6 +1,6 @@
 ![](/images/logo.png)
 
-Version: 1.0 from 17th March 2015<br>
+Version: 1.0.2 from 1st June 2015<br>
 Developed by: Evolution Script S.A.C.<br>
 [Help Desk Software HelpDeskZ](http://www.helpdeskz.com)
 
@@ -14,6 +14,10 @@ HelpDeskZ requires:
 - MySQL database
 - GD Library (only for captcha verification)
 - Mod_rewrite (only if you want to use permalinks)-
+
+## Upgrading
+
+To upgrade your HelpDeskZ from previus versions, please read the file UPGRADING.txt
 
 ## Installation steps
 
@@ -43,10 +47,3 @@ For detailed information please see this <a href="http://www.helpdeskz.com/help/
 
 ## Translate HelpDeskZ to your language
 To translate HelpDeskZ read <a href="http://www.helpdeskz.com/help/knowledgebase/2/article/8/how-can-i-translate-helpdeskz">How can I translate HelpDeskZ.</a>
-
-## Rate us
-Rate our script on:
-- http://www.hotscripts.com/listing/helpdeskz/
-- http://www.opensourcescripts.com/info/helpdeskz.html
-
-Note: HelpDeskZ can now be installed easily with just one click via <a href="http://www.softaculous.com/apps/customersupport/HelpDeskZ">Softaculous.</a>

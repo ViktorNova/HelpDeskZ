@@ -43,6 +43,7 @@ if($params[0] == 'update_password'){
 							'email' => $input->p['email'],
 							'signature' => $input->p['signature'],
 							'timezone' => (in_array($input->p['timezone'], $timezone)?$input->p['timezone']:''),
+                            'newticket_notification' => ($input->p['newticket_notification'] == 1?1:0),
 						);
 			$db->update(TABLE_PREFIX."staff", $data, "id={$staff['id']}");
 			header('location: '.getUrl($controller,$action, 'profile_updated'));
