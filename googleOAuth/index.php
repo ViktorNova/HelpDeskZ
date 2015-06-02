@@ -9,7 +9,7 @@
 include('../includes/global.php');
 include(INCLUDES.'helpdesk.inc.php');
 include(__DIR__.'/Google/autoload.php');
-if($settings['facebookoauth'] != 1)
+if($settings['googleoauth'] != 1)
 {
     header('location: '.getUrl());
     exit;
