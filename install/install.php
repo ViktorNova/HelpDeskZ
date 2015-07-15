@@ -332,7 +332,7 @@ function helpdeskz_agreement(){
 	<input type="submit" value="Continue" />
 
         </form>
-<?
+<?php
 	helpdeskz_footer();
 }
 
@@ -498,7 +498,7 @@ function helpdeskz_database($error_msg =null){
         </tr>
 		</table>
     </form>
-    <?
+    <?php
 	helpdeskz_footer();	
 }
 
@@ -508,7 +508,7 @@ function helpdeskz_completed(){
 	<h3>Installation Completed</h3>
     <p>Installation has been successfully completed, <strong>do not forget to remove</strong> <strong style="color:red">/install</strong> folder</p>
     <p><a href="../?v=staff" target="_blank">Click here to open staff panel</a></p>
-<?
+<?php
 	helpdeskz_footer();	
 }
 if($input->p['license'] == 'agree'){

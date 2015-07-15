@@ -18,6 +18,6 @@ helpdeskz_header();
         <button onclick="location.href='./install.php';">Install a fresh copy</button>
         <button onclick="location.href='./upgrade.php';">Upgrade my HelpDeskZ</button>
     </div>
-<?
+<?php
 helpdeskz_footer();
 ?>

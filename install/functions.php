@@ -15,7 +15,7 @@ function helpdeskz_header(){
     <div id="wrapper">
     <div id="logo"></div>
     <div class="login_box">
-<?
+<?php
 }
 function helpdeskz_footer(){
     ?>
@@ -26,6 +26,6 @@ function helpdeskz_footer(){
     </div>
     </body>
     </html>
-    <?
+    <?php
     exit;
 }
